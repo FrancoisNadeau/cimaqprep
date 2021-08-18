@@ -52,7 +52,7 @@ class participant_data:
 
         # Remove participants who failed quality control
         task_qc = tuple('sub-'+str(itm[0]) for itm in
-                        pd.read_csv(pjoin(dname(self.participants_path), sub_list_TaskQC.tsv),
+                        pd.read_csv(pjoin(dname(self.participants_path), 'sub_list_TaskQC.tsv'),
                               sep = '\t').values)
         subjects = subjects.iloc[[row[0] for row in subjects.iterrows()
                                         if row[1].mar_subs in task_qc]]
