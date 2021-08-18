@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from nilearn.image import clean_img, iter_img, load_img, resample_to_img
+from nilearn.image import clean_img, iter_img, load_img, mean_img, resample_to_img
 from nilearn.masking import compute_multi_epi_mask
 import collections
 from collections.abc import Iterable, Sequence
@@ -54,7 +54,7 @@ def resample_fmri_to_events(fmri_img:nib.Nifti1Image,
     decomp_func['frame_times'] = frame_times
     test=df(pd.cut(decomp_func['frame_times'], n_events))
     test['imgs'] = decomp_func['imgs']
-    return df(((grp, nilearn.image.mean_img(
+    return df(((grp, mean_img(
                 test.groupby('frame_times').get_group(grp)['imgs']))
                for grp in tqdm(list(test.groupby('frame_times').groups))))
 
