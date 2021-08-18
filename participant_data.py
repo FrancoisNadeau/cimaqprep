@@ -43,7 +43,7 @@ class participant_data:
         participants_path = participants_path
     
         # Load participants infos and indexing file
-        participants = pd.read_csv(pjoin(participants_path, Participants_bids.tsv),
+        participants = pd.read_csv(pjoin(participants_path, 'Participants_bids.tsv'),
                                    sep = '\t')
         # Assing each participant to its double identifier
         subjects = df(tuple(('sub-'+str(itm[0]), 'sub-'+str(itm[1])) for itm in
