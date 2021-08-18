@@ -12,6 +12,7 @@ from typing import Union
 import pandas as pd
 from pandas import DataFrame as df
 
+import cimaqprep
 import loadutils as lu
 
 def clean_resampled_fmri(fmri_img:Union[nib.nifti1.Nifti1Image,
@@ -81,7 +82,7 @@ def clean_resampled_fmri(fmri_img:Union[nib.nifti1.Nifti1Image,
     if not resample_to_mask:
         fmri_img = fmri_img
     else:
-        fmri_img = resample_fmri_to_mask(fmri_img, mask_img)
+        fmri_img = cimaqprep.resample_fmri_to_mask(fmri_img, mask_img)
     if t_r is not None:
         t_r = t_r
     else:
