@@ -12,8 +12,7 @@ import pandas as pd
 from pandas import DataFrame as df
 
 import loadutils as lu
-from cimaqprep import clean_resampled_fmri
-from cimaqprep import resample_fmri_to_mask
+import cimaqprep
 
 def resample_fmri_to_events(fmri_img:nib.Nifti1Image,
                             mask_img:nib.Nifti1Image=None,
@@ -30,11 +29,11 @@ def resample_fmri_to_events(fmri_img:nib.Nifti1Image,
     "If mask is provided, it should have same shape and affine as imgs.""
     '''
     if resample_to_mask:
-        fmri_img = resample_fmri_to_mask(fmri_img, mask_img)
+        fmri_img = cimaqprep.resample_fmri_to_mask(fmri_img, mask_img)
     else:
         fmri_img = fmri_img
     if clean_resampled_imgs:
-        fmri_imgs = clean_resampled_fmri(fmri_img=fmri_img,
+        fmri_imgs = cimaqprep.clean_resampled_fmri(fmri_img=fmri_img,
                                          mask_img=mask_img,
                                          resample_to_mask=resample_to_mask,
                                          **kwargs)
