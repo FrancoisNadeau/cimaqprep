@@ -20,7 +20,7 @@ def get_outcomes(behav:pd.DataFrame):
 	"miss" = old object misrecognized as new
 	'''
 	responses = []
-    for row in behav.iterrows():
+	for row in behav.iterrows():
 		if row[1].recognition_acc and row[1].spatial_acc:
 			responses.append('hit')
 		elif row[1].recognition_acc and not row[1].spatial_acc:
