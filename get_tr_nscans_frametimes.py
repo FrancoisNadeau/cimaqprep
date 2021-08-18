@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+import collections
+from collections.abc import Iterable
 import nibabel as nib
 from typing import Union
 import os
@@ -11,7 +13,7 @@ def get_tr_nscans_frametimes(
 ) -> tuple:
     if isinstance(fmri_img, nib.nifti1.Nifti1Image):
         fmri_img = fmri_img
-    if isinstance(fmri_img, collections.abc.Iterable):
+    if isinstance(fmri_img, Iterable):
         fmri_img = concat_imgs(fmri_img, auto_resample=True)
     else:
         if isinstance(fmri_img, str) or isinstance(fmri_img, os.PathLike):
