@@ -27,7 +27,8 @@ class participant_data:
     from nilearn import masking
     from nilearn.plotting import plot_stat_map, plot_anat, plot_img, plot_epi
     from nilearn.image import concat_imgs, mean_img
-    def __init__(self):
+    def __init__(self,cimaq_nov_dir,cimaq_mar_dir,
+                 events_path,behav_path,participants_path):
         cimaq_nov_dir = cimaq_nov_dir
         cimaq_mar_dir = cimaq_mar_dir
         events_path = events_path
