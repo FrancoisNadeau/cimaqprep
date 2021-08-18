@@ -98,7 +98,7 @@ class participant_data:
         correctsources = self.events[['oldnumber', 'correctsource']]
         self.behav['correctsource'] = correctsources.correctsource
         self.behav['correctsource'] = [row[1].correctsource if row[1].oldnumber
-                                               in lst_intersection(self.events.oldnumber,
+                                               in lu.lst_intersection(self.events.oldnumber,
                                                                    self.behav.oldnumber)
                                                else np.nan for row in self.behav.iterrows()]
         self.behav['spatial_acc'] = [row[1].spatial_resp == row[1].correctsource
