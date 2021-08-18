@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from nilearn.image import clean_img, iter_img, load_img, resample_to_img
+from nilearn.image import clean_img, concat_imgs, iter_img, load_img, resample_to_img
 from nilearn.masking import compute_multi_epi_mask
 import collections
 from collections.abc import Iterable, Sequence
@@ -17,7 +17,7 @@ import loadutils as lu
 def resample_fmri_to_mask(fmri_img:nib.Nifti1Image,
 						  mask_img:nib.Nifti1Image
                          ) -> nib.Nifti1Image:
-    return nilearn.image.concat_imgs([resample_to_img(source_img=img,
+    return concat_imgs([resample_to_img(source_img=img,
                                                       target_img=mask_img,
                                                       force_resample=True)
                                       for img in tqdm(list(iter_img(fmri_img)))])
