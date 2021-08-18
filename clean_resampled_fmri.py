@@ -86,7 +86,7 @@ def clean_resampled_fmri(fmri_img:Union[nib.nifti1.Nifti1Image,
     if t_r is not None:
         t_r = t_r
     else:
-        t_r = get_tr_nscans_frametimes(fmri_img)[0]
+        t_r = cimaqprep.get_tr_nscans_frametimes(fmri_img)[0]
     return clean_img(imgs=fmri_img,
                      detrend=detrend, 
                      standardize=standardize,
