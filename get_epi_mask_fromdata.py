@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from nilearn.image import clean_img, concat_imgs, iter_img, load_img, resample_to_img
+from nilearn.image import clean_img, concat_imgs, iter_img, load_img, mean_img, resample_to_img
 from nilearn.masking import compute_multi_epi_mask
 import collections
 from collections.abc import Iterable, Sequence
