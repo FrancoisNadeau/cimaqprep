@@ -1,0 +1,16 @@
+build
+jupyter
+jupyterhub
+nibabel
+nilearn
+notebook
+numpy
+pandas
+pysql2
+pysql3
+regex
+sklearn
+tqdm
+wheel
+unidecode
+
