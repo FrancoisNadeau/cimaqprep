@@ -6,6 +6,7 @@ import collections
 from collections.abc import Iterable, Sequence
 import numpy as np
 import nibabel as nib
+import os
 from tqdm import tqdm
 from typing import Union
 import pandas as pd
@@ -28,7 +29,7 @@ def get_epi_mask_fromdata(imgs):
         List of nifti images paths
         - valid epi images should contain the string "_epi" in their path
     '''
-    all_resampled_epi_imgs = lu.flatten(list(image.iter_img(concat_imgs(
+    all_resampled_epi_imgs = lu.flatten(list(iter_img(concat_imgs(
                                   lu.flatten(list([mean_img(load_img(img)) if 
                                                    len(load_img(img).shape)==3
                                                    else[mean_img(vol) for vol in

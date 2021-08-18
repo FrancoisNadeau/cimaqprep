@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 
 import nibabel as nib
+from typing import Union
+import os
 from nilearn.image import concat_imgs
 
 def get_tr_nscans_frametimes(

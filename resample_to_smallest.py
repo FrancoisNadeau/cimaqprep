@@ -6,6 +6,7 @@ import collections
 from collections.abc import Iterable, Sequence
 import nibabel as nib
 import numpy as np
+import os
 from tqdm import tqdm
 from typing import Union
 import pandas as pd
