@@ -148,7 +148,7 @@ def main():
                                cimaq_mar_dir = xpu('~/../../data/cisl/DATA/cimaq_03-19'),
                                events_path = xpu('~/../../data/cisl/DATA/cimaq_corrected_events/events'),
                                behav_path = xpu('~/../../data/cisl/DATA/cimaq_corrected_behavioural/behavioural'),
-                               participants_path = pjoin(cimaq_mar_dir, 'derivatives/CIMAQ_fmri_memory/data/participants/Participants'),
+                               participants_path = pjoin(cimaq_mar_dir, 'derivatives/CIMAQ_fmri_memory/data/participants'),
                                **kwargs)
     return subject
  
