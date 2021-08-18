@@ -142,7 +142,7 @@ class participant_data:
                                                                    't_r':self.t_r,
                                                                    'ensure_finite':True,
                                                                    'frame_times':self.frame_times,
-                                                                   'n_events':self.events})
+                                                                   'n_events':self.events})[1]
 def main():
     subject = participant_data(cimaq_nov_dir = xpu('~/../../data/cisl/DATA/cimaq_20190901'),
                                cimaq_mar_dir = xpu('~/../../data/cisl/DATA/cimaq_03-19'),
