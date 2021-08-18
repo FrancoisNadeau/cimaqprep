@@ -12,6 +12,8 @@ import pandas as pd
 from pandas import DataFrame as df
 
 import loadutils as lu
+from cimaqprep import clean_resampled_fmri
+from cimaqprep import resample_fmri_to_mask
 
 def resample_fmri_to_events(fmri_img:nib.Nifti1Image,
                             mask_img:nib.Nifti1Image=None,
