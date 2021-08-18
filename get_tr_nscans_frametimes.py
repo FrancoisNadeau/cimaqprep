@@ -3,6 +3,7 @@
 import collections
 from collections.abc import Iterable
 import nibabel as nib
+import numpy as np
 from typing import Union
 import os
 from nilearn.image import concat_imgs
