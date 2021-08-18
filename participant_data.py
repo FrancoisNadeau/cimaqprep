@@ -135,15 +135,14 @@ class participant_data:
                                                                    'ensure_finite':True,
                                                                    'frame_times':self.frame_times,
                                                                    'n_events':self.events})
-		
 def main():
     subject = participant_data(cimaq_nov_dir = xpu('~/../../data/cisl/DATA/cimaq_20190901'),
-							   cimaq_mar_dir = xpu('~/../../data/cisl/DATA/cimaq_03-19'),
-							   events_path = xpu('~/../../data/cisl/DATA/cimaq_corrected_events/events'),
-							   behav_path = xpu('~/../../data/cisl/DATA/cimaq_corrected_behavioural/behavioural'),
-							   participants_path = pjoin(cimaq_mar_dir, 'derivatives/CIMAQ_fmri_memory/data/participants/Participants'),
-							   **kwargs)
-	return subject					 
+                               cimaq_mar_dir = xpu('~/../../data/cisl/DATA/cimaq_03-19'),
+                               events_path = xpu('~/../../data/cisl/DATA/cimaq_corrected_events/events'),
+                               behav_path = xpu('~/../../data/cisl/DATA/cimaq_corrected_behavioural/behavioural'),
+                               participants_path = pjoin(cimaq_mar_dir, 'derivatives/CIMAQ_fmri_memory/data/participants/Participants'),
+                               **kwargs)
+    return subject
  
 if __name__ == "__main__":
     main()
