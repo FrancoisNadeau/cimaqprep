@@ -36,14 +36,14 @@ class participant_data:
     from nilearn.image import concat_imgs, mean_img
     def __init__(self,cimaq_nov_dir,cimaq_mar_dir,
                  events_path,behav_path,participants_path):
-        cimaq_nov_dir = cimaq_nov_dir
-        cimaq_mar_dir = cimaq_mar_dir
-        events_path = events_path
-        behav_path = behav_path
-        participants_path = participants_path
+        self.cimaq_nov_dir = cimaq_nov_dir
+        self.cimaq_mar_dir = cimaq_mar_dir
+        self.events_path = events_path
+        self.behav_path = behav_path
+        self.participants_path = participants_path
     
         # Load participants infos and indexing file
-        participants = pd.read_csv(pjoin(participants_path, 'Participants_bids.tsv'),
+        participants = pd.read_csv(pjoin(self.participants_path, 'Participants_bids.tsv'),
                                    sep = '\t')
         # Assing each participant to its double identifier
         subjects = df(tuple(('sub-'+str(itm[0]), 'sub-'+str(itm[1])) for itm in
@@ -52,7 +52,7 @@ class participant_data:
 
         # Remove participants who failed quality control
         task_qc = tuple('sub-'+str(itm[0]) for itm in
-                        pd.read_csv(pjoin(dname(participants_dir), sub_list_TaskQC.tsv),
+                        pd.read_csv(pjoin(dname(self.participants_path), sub_list_TaskQC.tsv),
                               sep = '\t').values)
         subjects = subjects.iloc[[row[0] for row in subjects.iterrows()
                                         if row[1].mar_subs in task_qc]]
@@ -62,10 +62,10 @@ class participant_data:
         # Sort march scans and november scans in their respective DataFrames
 
         mar_scans = lu.loadfiles([itm for itm in
-                                    lu.loadimages(pjoin(cimaq_mar_dir, self.sub_id[0]))
+                                    lu.loadimages(pjoin(self.cimaq_mar_dir, self.sub_id[0]))
                                     if not itm.endswith('.json')])
         nov_scans = lu.loadfiles([itm for itm in
-                                    lu.loadimages(pjoin(cimaq_nov_dir, self.sub_id[1]))
+                                    lu.loadimages(pjoin(self.cimaq_nov_dir, self.sub_id[1]))
                                     if not itm.endswith('.json')])
         self.mar_scans = df(((grp, mar_scans.groupby('parent').get_group(grp).fpaths.values)
                              for grp in mar_scans.groupby('parent').groups)).set_index(0).T
@@ -74,25 +74,25 @@ class participant_data:
                              for grp in nov_scans.groupby('parent').groups)).set_index(0).T
         
         mar_infos = lu.loadfiles([itm for itm in
-                                    lu.loadimages(pjoin(cimaq_mar_dir, self.sub_id[0]))
+                                    lu.loadimages(pjoin(self.cimaq_mar_dir, self.sub_id[0]))
                                     if itm.endswith('.json')])
         self.mar_infos = df(((grp, mar_infos.groupby('parent').get_group(grp))
                              for grp in mar_infos.groupby('parent').groups))
         nov_infos = lu.loadfiles([itm for itm in
-                                    lu.loadimages(pjoin(cimaq_nov_dir, self.sub_id[0]))
+                                    lu.loadimages(pjoin(self.cimaq_nov_dir, self.sub_id[0]))
                                     if itm.endswith('.json')])
         self.nov_infos = df(((grp, nov_infos.groupby('parent').get_group(grp))
                              for grp in nov_infos.groupby('parent').groups))
 
-        self.events = [pd.read_csv(pjoin(events_path, itm), sep = '\t')
-                       for itm in lu.loadimages(events_path)
+        self.events = [pd.read_csv(pjoin(self.events_path, itm), sep = '\t')
+                       for itm in lu.loadimages(self.events_path)
                        if bname(itm).split('_')[1] == self.sub_id[0].split('-')[1]][0]
         self.events['duration'] = [abs(row[1].stim_onset - row[1].fix_onset)
                                    for row in self.events.iterrows()]
         self.events = self.events.rename(columns = {'stim_onset': 'onset'})
         self.events['trial_type'] = self.events['category']
-        self.behav = [pd.read_csv(pjoin(behav_path, itm), sep = '\t')
-                      for itm in lu.loadimages(behav_path)
+        self.behav = [pd.read_csv(pjoin(self.behav_path, itm), sep = '\t')
+                      for itm in lu.loadimages(self.behav_path)
                       if bname(itm).split('_')[1] == \
                       self.sub_id[1].split('-')[1]][0].iloc[:, :-1]
         correctsources = self.events[['oldnumber', 'correctsource']]
@@ -119,7 +119,7 @@ class participant_data:
         eventscopy['outcomes']=eventscopy.oldnumber.map(outcomesdict)
         self.events=eventscopy
         self.confounds = [pd.read_csv(itm, sep='\t') for itm in
-                          lu.loadimages(pjoin(cimaq_mar_dir,\
+                          lu.loadimages(pjoin(self.cimaq_mar_dir,\
                                               'derivatives/CIMAQ_fmri_memory/data/confounds/resample'))
                           if bname(itm).split('_')[1][3:] == self.sub_id[0].split('-')[1]][0]
 
