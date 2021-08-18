@@ -1,7 +1,6 @@
 #!usr/bin/env/python3 
  
-# 
-__init__.py 
+# __init__.py 
  
 from .clean_resampled_fmri import clean_resampled_fmri 
 from. get_tr_nscans_frametimes import get_tr_nscans_frametimes 
