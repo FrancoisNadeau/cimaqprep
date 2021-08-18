@@ -19,6 +19,7 @@ def get_outcomes(behav:pd.DataFrame):
 	"corr_rejection" = new object recognized as new
 	"miss" = old object misrecognized as new
 	'''
+
 	responses = []
 	for row in behav.iterrows():
 		if row[1].recognition_acc and row[1].spatial_acc:
