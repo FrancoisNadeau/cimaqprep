@@ -1,6 +1,7 @@
 build
 jupyter
 jupyterhub
+jupyter_contrib_nbextensions
 nibabel
 nilearn
 notebook
@@ -13,4 +14,3 @@ sklearn
 tqdm
 wheel
 unidecode
-
