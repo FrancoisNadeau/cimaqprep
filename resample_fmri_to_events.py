@@ -20,7 +20,7 @@ def resample_fmri_to_events(fmri_img:nib.Nifti1Image,
                             n_events:Union[int,pd.DataFrame,np.array]=None,
                             t_r:float=None,
                             frame_times:collections.abc.Iterable=None,
-                            resample_to_mask:bool=True,
+#                             resample_to_mask:bool=True,
                             clean_resampled_imgs:bool=True,
                             **kwargs):
     from nilearn.image import clean_img, iter_img, resample_to_img
@@ -42,8 +42,8 @@ def resample_fmri_to_events(fmri_img:nib.Nifti1Image,
     if clean_resampled_imgs:
         fmri_img = cimaqprep.clean_resampled_fmri(fmri_img=fmri_img,
                                          mask_img=mask_img,
-                                         resample_to_mask=[False if img_shapes_as_mask_shape
-                                                           else True][0],
+#                                          resample_to_mask=[False if img_shapes_as_mask_shape
+#                                                            else True][0],
                                          **kwargs)
     else:
         fmri_img = fmri_img
