@@ -68,38 +68,38 @@ class participant_data:
         self.events_path = events_path
         self.behav_path = behav_path
         self.participants_path = participants_path
-    self.sub_id = fetch_participant(self.cimaq_mar_dir)
-    self.mar_scans = fetch_scans(subject_dir=pjoin(self.cimaq_mar_dir, self.sub_id[0]))
-    self.mar_infos = fetch_infos(subject_dir=pjoin(self.cimaq_mar_dir, self.sub_id[0]))
-    self.nov_scans = fetch_scans(subject_dir=pjoin(self.cimaq_nov_dir, self.sub_id[1]))
-    self.nov_infos = fetch_infos(pjoin(self.cimaq_nov_dir, self.sub_id[1]))
-    self.events, self.behav = fetch_events_behav(self.cimaq_mar_dir, self.events_path,
-                                                 self.behav_path, self.sub_id)
-    self.confounds = [pd.read_csv(itm, sep='\t') for itm in
-                      lu.loadimages(pjoin(self.cimaq_mar_dir,\
-                                          'derivatives/CIMAQ_fmri_memory/data/confounds/resample'))
-                      if bname(itm).split('_')[1][3:] == self.sub_id[0].split('-')[1]][0]
+        self.sub_id = fetch_participant(self.cimaq_mar_dir)
+        self.mar_scans = fetch_scans(subject_dir=pjoin(self.cimaq_mar_dir, self.sub_id[0]))
+        self.mar_infos = fetch_infos(subject_dir=pjoin(self.cimaq_mar_dir, self.sub_id[0]))
+        self.nov_scans = fetch_scans(subject_dir=pjoin(self.cimaq_nov_dir, self.sub_id[1]))
+        self.nov_infos = fetch_infos(pjoin(self.cimaq_nov_dir, self.sub_id[1]))
+        self.events, self.behav = fetch_events_behav(self.cimaq_mar_dir, self.events_path,
+                                                     self.behav_path, self.sub_id)
+        self.confounds = [pd.read_csv(itm, sep='\t') for itm in
+                          lu.loadimages(pjoin(self.cimaq_mar_dir,\
+                                              'derivatives/CIMAQ_fmri_memory/data/confounds/resample'))
+                          if bname(itm).split('_')[1][3:] == self.sub_id[0].split('-')[1]][0]
 
-    self.t_r, self.n_scans, self.frame_times = \
-         get_tr_nscans_frametimes(self.mar_scans.func[1][0])
-    self.resampled_frame_times=np.arange(0, self.frame_times.max(),
-                                      self.frame_times.max()/self.events.shape[0])
-    # Compute epi masks for march and november scans, respectively
-    self.mar_epi_mask = get_epi_mask_fromdata(imgs=self.mar_scans.fmap[1])
-    self.nov_epi_mask = get_epi_mask_fromdata(imgs=self.nov_scans.fmap[1])
-    self.resampled_fmri_to_events=resample_fmri_to_events(fmri_img=self.mar_scans.func[1][0],
-                                                          mask_img=self.mar_epi_mask,
-                                                            resample_to_mask=True,
-                                                            clean_resampled_imgs=True,
-                                                            **{'confounds':self.confounds,
-                                                               'low_pass':None,
-                                                               'high_pass':None,
-                                                               'detrend':True,
-                                                               'standardize':True,
-                                                               't_r':self.t_r,
-                                                               'ensure_finite':True,
-                                                               'frame_times':self.frame_times,
-                                                               'n_events':self.events})[1]
+        self.t_r, self.n_scans, self.frame_times = \
+             get_tr_nscans_frametimes(self.mar_scans.func[1][0])
+        self.resampled_frame_times=np.arange(0, self.frame_times.max(),
+                                          self.frame_times.max()/self.events.shape[0])
+        # Compute epi masks for march and november scans, respectively
+        self.mar_epi_mask = get_epi_mask_fromdata(imgs=self.mar_scans.fmap[1])
+        self.nov_epi_mask = get_epi_mask_fromdata(imgs=self.nov_scans.fmap[1])
+        self.resampled_fmri_to_events=resample_fmri_to_events(fmri_img=self.mar_scans.func[1][0],
+                                                              mask_img=self.mar_epi_mask,
+                                                                resample_to_mask=True,
+                                                                clean_resampled_imgs=True,
+                                                                **{'confounds':self.confounds,
+                                                                   'low_pass':None,
+                                                                   'high_pass':None,
+                                                                   'detrend':True,
+                                                                   'standardize':True,
+                                                                   't_r':self.t_r,
+                                                                   'ensure_finite':True,
+                                                                   'frame_times':self.frame_times,
+                                                                   'n_events':self.events})[1]
 def main():
     subject = participant_data(cimaq_nov_dir = xpu('~/../../data/cisl/DATA/cimaq_20190901'),
                                cimaq_mar_dir = xpu('~/../../data/cisl/DATA/cimaq_03-19'),
