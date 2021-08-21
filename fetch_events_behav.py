@@ -15,24 +15,24 @@ def fetch_events_behav(cimaq_mar_dir:Union[str, os.PathLike],
                        events_path:Union[str, os.PathLike],
                        behav_path:Union[str, os.PathLike],
                        sub_id:tuple) -> pd.DataFrame:
-	'''
-	Description
-	-----------
-	Load in-scan (events) and out-scan (behavioural) tasks performances
-	and make them suitable for passing as parameters to
-	nilearn.glm.first_level.FirstLevelModel and nilearn.glm.first_level.make_first_level_design_matrix
+    '''
+    Description
+    -----------
+    Load in-scan (events) and out-scan (behavioural) tasks performances
+    and make them suitable for passing as parameters to
+    nilearn.glm.first_level.FirstLevelModel and nilearn.glm.first_level.make_first_level_design_matrix
 
-	Parameters
-	----------
-	cimaq_mar_dir: Path to CIMA-Q march 2019 dataset
-	events_path: Path to CIMA-Q march 2019 events files
-	behav_path: Path to CIMA-Q march 2019 behavioural files
-	sub_id: Tuple (march_id, november_id) containing a subject's 6-digit and 7-digit identifiers, respectively
+    Parameters
+    ----------
+    cimaq_mar_dir: Path to CIMA-Q march 2019 dataset
+    events_path: Path to CIMA-Q march 2019 events files
+    behav_path: Path to CIMA-Q march 2019 behavioural files
+    sub_id: Tuple (march_id, november_id) containing a subject's 6-digit and 7-digit identifiers, respectively
 
-	Returns
-	-------
-	Subject's events DataFrame and subject's behavioural DataFrame
-	'''
+    Returns
+    -------
+    Subject's events DataFrame and subject's behavioural DataFrame
+    '''
     events = [pd.read_csv(pjoin(events_path, itm), sep = '\t')
 			  for itm in lu.loadimages(events_path)
 			  if bname(itm).split('_')[1] == sub_id[0].split('-')[1]][0]
