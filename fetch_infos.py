@@ -7,6 +7,21 @@ from typing import Union
 import loadutils as lu
 
 def fetch_infos(subject_dir:Union[str,os.PathLike]) -> pd.DataFrame:
+	'''
+	Description
+	-----------
+	Load a participant's information files about each of his or her
+	respective scans (nibabel.nifti1.Nifti1Image) files.
+	
+	Parameters
+	----------
+	subject_dir: Path to participant's data directory
+	
+	Returns
+	-------
+	DataFrame containg information about the subject's scans, in the same order as
+	this subject's scans DataFrame (outputed by cimaqprep.fetch_scans)
+	'''
 	infos = lu.loadfiles([itm for itm in lu.loadimages(subject_dir)
 						  if itm.endswith('.json')])
 	return df(((grp, infos.groupby('parent').get_group(grp).fpaths.values)
