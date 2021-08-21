@@ -6,7 +6,6 @@ from os.path import join as pjoin
 import pandas as pd
 from pandas import DataFrame as df
 from typing import Union
-from .fetch_participant import fetch_participant
 from .get_outcomes import get_outcomes
 import loadutils as lu
 
