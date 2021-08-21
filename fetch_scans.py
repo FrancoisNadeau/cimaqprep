@@ -4,6 +4,7 @@ import os
 import pandas as pd
 from pandas import DataFrame as df
 from typing import Union
+import loadutils as lu
 
 def fetch_scans(subject_dir:Union[str,os.PathLike]) -> pd.DataFrame:
 	scans = lu.loadfiles([itm for itm in lu.loadimages(subject_dir)
