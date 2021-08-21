@@ -17,6 +17,21 @@ import loadutils as lu
 def resample_to_smallest(imgs:Union[Iterable, Sequence],
                  **kwargs
                 )->list:
+    '''
+    Description
+    -----------
+    Resample all images in 'imgs' to the shape of the image
+    with the smallest shape in 'imgs'.
+    
+    Parameters
+    ----------
+    imgs: Iterable class containing nib.nifti1.Nifti1Image images
+    
+    Returns
+    -------
+    List containing the same images as provided in 'imgs', but with the
+    same shape as the smallest image shape among images from the provided iterable.
+    '''
     target_img = next(img for img in imgs if
                       [img if isinstance(img, nib.nifti1.Nifti1Image)
                        else nib.load(img)][0].shape == \
