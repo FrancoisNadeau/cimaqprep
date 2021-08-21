@@ -11,6 +11,17 @@ from .get_outcomes import get_outcomes
 import loadutils as lu
 
 def fetch_participant(cimaq_mar_dir:Union[str,os.PathLike]) -> tuple:
+	'''
+	Description: Sort march scans and november scans in their respective DataFrames
+	Parameters
+	----------
+	cimaq_mar_dir: Path to CIMA-Q March 2019 dataset directory
+	
+	Returns
+	-------
+	sub_id: Unique participant double identifier (concatenated 6-digit and 7-digit identifiers,
+		respectively among participants who successfully passed quality control assessment
+	'''
 	# Load participants infos and indexing file
 	
 	participants_path = pjoin(cimaq_mar_dir, 'derivatives/CIMAQ_fmri_memory/data/participants')
