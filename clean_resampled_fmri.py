@@ -21,7 +21,7 @@ def clean_resampled_fmri(fmri_img:Union[nib.nifti1.Nifti1Image,
                          mask_img:Union[nib.nifti1.Nifti1Image,
                                          str, os.PathLike]=None,
                          t_r:float=None,
-                         resample_to_mask:bool=True,
+#                          resample_to_mask:bool=True,
                          confounds:pd.DataFrame=None,
                          detrend:bool=True,
                          low_pass:float=None,
@@ -78,11 +78,16 @@ def clean_resampled_fmri(fmri_img:Union[nib.nifti1.Nifti1Image,
     Detrending could be the solution: van Driel, Oliver & Fahrenfort (2018)
     "Trial-masked robust detrending."
     '''
-    
-    if not resample_to_mask:
+    img_shapes_as_mask_shape = pd.Series(img.shape == mask_img.shape
+                                         for img in list(iter_img(fmri_img))).unique()[0] == True
+    if img_shapes_as_mask_shape:
         fmri_img = fmri_img
     else:
         fmri_img = cimaqprep.resample_fmri_to_mask(fmri_img, mask_img)
+#     if not resample_to_mask:
+#         fmri_img = fmri_img
+#     else:
+#         fmri_img = cimaqprep.resample_fmri_to_mask(fmri_img, mask_img)
     if t_r is not None:
         t_r = t_r
     else:
