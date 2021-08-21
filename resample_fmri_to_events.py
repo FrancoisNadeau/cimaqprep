@@ -27,6 +27,7 @@ def resample_fmri_to_events(fmri_img:nib.Nifti1Image,
     Description
     -----------
     Resample fmri volumes' shapes and affines to those of the epi mask
+    
     Parameters
     ----------
     fmri_img: 4D fMRI image
@@ -48,16 +49,9 @@ def resample_fmri_to_events(fmri_img:nib.Nifti1Image,
         fmri_img = fmri_img
     else:
         fmri_img = cimaqprep.resample_fmri_to_mask(fmri_img, mask_img)
-#     if resample_to_mask:
-#         fmri_img = cimaqprep.resample_fmri_to_mask(fmri_img, mask_img)
-#     else:
-#         fmri_img = fmri_img
     if clean_resampled_imgs:
         fmri_img = cimaqprep.clean_resampled_fmri(fmri_img=fmri_img,
-                                         mask_img=mask_img,
-#                                          resample_to_mask=[False if img_shapes_as_mask_shape
-#                                                            else True][0],
-                                         **kwargs)
+                                         mask_img=mask_img, **kwargs)
     else:
         fmri_img = fmri_img
     if frame_times is not None:
