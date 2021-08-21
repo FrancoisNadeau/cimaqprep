@@ -33,7 +33,6 @@ def fetch_events_behav(cimaq_mar_dir:Union[str, os.PathLike],
 	-------
 	Subject's events DataFrame and subject's behavioural DataFrame
 	'''
-	
     events = [pd.read_csv(pjoin(events_path, itm), sep = '\t')
 			  for itm in lu.loadimages(events_path)
 			  if bname(itm).split('_')[1] == sub_id[0].split('-')[1]][0]
