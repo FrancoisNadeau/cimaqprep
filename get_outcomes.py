@@ -11,6 +11,8 @@ from pandas import DataFrame as df
 
 def get_outcomes(behav:pd.DataFrame):
 	'''
+	Description
+	-----------
 	Compute behavioural (outside scanner) trial outcomes.
 	"hit" = successful object and position recognition
 	"recog_ok_spatial_wrong" = successful object recognition and
@@ -18,6 +20,14 @@ def get_outcomes(behav:pd.DataFrame):
 	"false_alarm" = new object misrecognized as old
 	"corr_rejection" = new object recognized as new
 	"miss" = old object misrecognized as new
+	
+	Parameters
+	----------
+	behav: Participant's behavioural (out-scan) task results
+	
+	Returns
+	-------
+	behav, but containing behavioural (out-scan) task outcomes
 	'''
 
 	responses = []
