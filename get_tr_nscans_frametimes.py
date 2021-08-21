@@ -12,6 +12,20 @@ def get_tr_nscans_frametimes(
     fmri_img:Union[nib.nifti1.Nifti1Image, str, os.PathLike],
     **kwargs
 ) -> tuple:
+    '''
+    Description
+    -----------
+    Find fMRI image repetition time (t_r), number of slices and frame times (onsets)
+    from the provided fMRI image file.
+    
+    Parameters
+    ----------
+    fmri_img: fMRI image or path to this image
+    
+    Returns
+    -------
+    t_r, n_scans, frame_times in this order
+    '''
     if isinstance(fmri_img, nib.nifti1.Nifti1Image):
         fmri_img = fmri_img
     if isinstance(fmri_img, Iterable):
