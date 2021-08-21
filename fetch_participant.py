@@ -14,7 +14,7 @@ def fetch_participant(cimaq_mar_dir:Union[str,os.PathLike]) -> tuple:
 	# Load participants infos and indexing file
 	
 	participants_path = pjoin(cimaq_mar_dir, 'derivatives/CIMAQ_fmri_memory/data/participants')
-	task_qc_path = pjoin(dname(participants_path), 'sub_list_TaskQC.tsv')
+	task_qc_path = pjoin(participants_path, 'sub_list_TaskQC.tsv')
 	participants = pd.read_csv(pjoin(participants_path, 'Participants_bids.tsv'), sep = '\t')
 	
 	# Assing each participant to its double identifier
