@@ -26,6 +26,7 @@ from .clean_resampled_fmri import clean_resampled_fmri
 from .fetch_events_behav import fetch_events_behav
 from .fetch_infos import fetch_infos
 from .fetch_scans import fetch_scans
+from .fetch_participant import fetch_participant
 from .get_tr_nscans_frametimes import get_tr_nscans_frametimes 
 from .resample_to_smallest import resample_to_smallest 
 from .get_epi_mask_fromdata import get_epi_mask_fromdata 
@@ -47,24 +48,24 @@ class participant_data:
         self.participants_path = participants_path
     
         # Load participants infos and indexing file
-        participants = pd.read_csv(pjoin(self.participants_path, 'Participants_bids.tsv'),
-                                   sep = '\t')
-        # Assing each participant to its double identifier
-        subjects = df(tuple(('sub-'+str(itm[0]), 'sub-'+str(itm[1])) for itm in
-                            tuple(zip(participants.participant_id, participants.pscid))),
-                      columns = ['mar_subs', 'nov_subs'])
+#         participants = pd.read_csv(pjoin(self.participants_path, 'Participants_bids.tsv'),
+#                                    sep = '\t')
+#         # Assing each participant to its double identifier
+#         subjects = df(tuple(('sub-'+str(itm[0]), 'sub-'+str(itm[1])) for itm in
+#                             tuple(zip(participants.participant_id, participants.pscid))),
+#                       columns = ['mar_subs', 'nov_subs'])
 
-        # Remove participants who failed quality control
-        task_qc = tuple('sub-'+str(itm[0]) for itm in
-                        pd.read_csv(pjoin(dname(self.participants_path), 'sub_list_TaskQC.tsv'),
-                              sep = '\t').values)
-        subjects = subjects.iloc[[row[0] for row in subjects.iterrows()
-                                        if row[1].mar_subs in task_qc]]
+#         # Remove participants who failed quality control
+#         task_qc = tuple('sub-'+str(itm[0]) for itm in
+#                         pd.read_csv(pjoin(dname(self.participants_path), 'sub_list_TaskQC.tsv'),
+#                               sep = '\t').values)
+#         subjects = subjects.iloc[[row[0] for row in subjects.iterrows()
+#                                         if row[1].mar_subs in task_qc]]
 
         # Select a random participant
-        self.sub_id = subjects.sample(1).values.flatten()
+#         self.sub_id = subjects.sample(1).values.flatten()
         # Sort march scans and november scans in their respective DataFrames
-    
+        self.sub_id = fetch_participant(self.cimaq_mar_dir)
         self.mar_scans = fetch_scans(subject_dir=pjoin(self.cimaq_mar_dir, self.sub_id[0]))
         self.mar_infos = fetch_infos(subject_dir=pjoin(self.cimaq_mar_dir, self.sub_id[0]))
         self.nov_scans = fetch_scans(subject_dir=pjoin(self.cimaq_nov_dir, self.sub_id[1]))
