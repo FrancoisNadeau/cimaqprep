@@ -56,8 +56,8 @@ def resample_fmri_to_events(fmri_img:nib.Nifti1Image,
     test['imgs'] = decomp_func['imgs']
     return df(((grp, mean_img(
                 test.groupby('frame_times').get_group(grp)['imgs']))
-               for grp in tqdm(list(test.groupby('frame_times').groups)),
-                               desc='resampling fMRI volumnes to events'))
+               for grp in tqdm(list(test.groupby('frame_times').groups),
+                               desc='resampling fMRI volumnes to events')))
 
 def main():
     resample_fmri_to_events(fmri_img)
