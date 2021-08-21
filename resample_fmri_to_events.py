@@ -23,11 +23,24 @@ def resample_fmri_to_events(fmri_img:nib.Nifti1Image,
 #                             resample_to_mask:bool=True,
                             clean_resampled_imgs:bool=True,
                             **kwargs):
-    from nilearn.image import clean_img, iter_img, resample_to_img
-    # Resample fmri volumes' shapes and affines to those of the epi mask
     '''
-    From nilearn.image.clean_img documentation:
-    "If mask is provided, it should have same shape and affine as imgs.""
+    Description
+    -----------
+    Resample fmri volumes' shapes and affines to those of the epi mask
+    Parameters
+    ----------
+    fmri_img: 4D fMRI image
+    mask_img: 3D EPI mask image
+              From nilearn.image.clean_img documentation:
+              "If mask is provided, it should have same shape and affine as imgs.""
+    n_events: Number of events (or trials) in an event-related experimental design
+    frame_times: Onset of each slice in fMRI image
+    clean_resampled_imgs: Indicate if fMRI slices should be cleaned to increase SNR or not
+    kwargs: Keyword arguments suitable for nilearn.image.clean_image function
+    
+    Returns
+    -------
+    List of fMRI slices of lenght equal to the number of trials (n_events)
     '''
     img_shapes_as_mask_shape = pd.Series(img.shape == mask_img.shape
                                          for img in list(iter_img(fmri_img))).unique()[0] == True
