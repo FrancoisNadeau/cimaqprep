@@ -2,6 +2,7 @@
 
 import os
 from os import listdir as ls
+from os.path import basename as bname
 from os.path import join as pjoin
 import pandas as pd
 from pandas import DataFrame as df
