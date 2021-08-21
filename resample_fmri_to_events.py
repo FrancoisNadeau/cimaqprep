@@ -30,7 +30,7 @@ def resample_fmri_to_events(fmri_img:nib.Nifti1Image,
     "If mask is provided, it should have same shape and affine as imgs.""
     '''
     img_shapes_as_mask_shape = pd.Series(nib.load(img).shape == mask_img.shape
-                                         for img in list(iter_img(fmri_img)).unique()[0] == True
+                                         for img in list(iter_img(fmri_img))).unique()[0] == True
     if img_shapes_as_mask_shape:
         fmri_img = fmri_img
     else:
