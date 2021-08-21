@@ -23,6 +23,7 @@ from pandas import DataFrame as df
 import loadutils as lu
 
 from .clean_resampled_fmri import clean_resampled_fmri
+from .fetch_events_behav import fetch_events_behav
 from .fetch_infos import fetch_infos
 from .fetch_scans import fetch_scans
 from .get_tr_nscans_frametimes import get_tr_nscans_frametimes 
