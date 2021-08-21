@@ -11,7 +11,7 @@ def fetch_infos(subject_dir:Union[str,os.PathLike]) -> pd.DataFrame:
 						  if itm.endswith('.json')])
 	return df(((grp, infos.groupby('parent').get_group(grp).fpaths.values)
                              for grp in infos.groupby(
-                                 'parent').groups)).T        
+                                 'parent').groups)).set_index(0).T        
 def main():
     fetch_infos(subject_dir)
  
