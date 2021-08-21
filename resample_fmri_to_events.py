@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-
+import os
+from os.path import expnduser as xpu
 from nilearn.image import clean_img, iter_img, load_img, mean_img, resample_to_img
 from nilearn.masking import compute_multi_epi_mask
 import collections
@@ -28,7 +29,7 @@ def resample_fmri_to_events(fmri_img:nib.Nifti1Image,
     From nilearn.image.clean_img documentation:
     "If mask is provided, it should have same shape and affine as imgs.""
     '''
-    img_shapes_as_mask_shape = pd.Series(nib.load(img).shape == mask_img.shape
+    img_shapes_as_mask_shape = pd.Series(nib.load(xpu(img)).shape == mask_img.shape
                                          for img in fmri_img).unique()[0] == True
     if img_shapes_as_mask_shape:
         fmri_img = fmri_img
