@@ -28,7 +28,8 @@ def resample_fmri_to_events(fmri_img:nib.Nifti1Image,
     From nilearn.image.clean_img documentation:
     "If mask is provided, it should have same shape and affine as imgs.""
     '''
-    img_shapes_as_mask_shape = pd.Series(img.shape == mask_img.shape
+    img_shapes_as_mask_shape = pd.Series([img if isinstance(img, nib.Nifti1Image)
+                                          else nib.load(img)][0].shape == mask_img.shape
                                          for img in fmri_img).unique()[0] == True
     if img_shapes_as_mask_shape:
         fmri_img = fmri_img
