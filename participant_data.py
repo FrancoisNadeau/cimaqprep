@@ -70,43 +70,39 @@ class participant_data:
 #         nov_scans = lu.loadfiles([itm for itm in
 #                                     lu.loadimages(pjoin(self.cimaq_nov_dir, self.sub_id[1]))
 #                                     if not itm.endswith('.json')])
-        self.mar_scans = df(((grp, lu.loadfiles([itm for itm in lu.loadimages(pjoin(
-                              self.cimaq_mar_dir, self.sub_id[0]))
-                                  if not itm.endswith('.json')]).groupby(
-                                       'parent').get_group(grp).fpaths.values)
-                             for grp in lu.loadfiles([itm for itm in lu.loadimages(pjoin(
-                                  self.cimaq_mar_dir, self.sub_id[0]))
-                                  if not itm.endswith('.json')]).groupby(
-                                 'parent').groups)).set_index(0).T
-#         self.mar_scans = fetch_scans(subject_dir=pjoin(self.cimaq_mar_dir, self.sub_id[0]))
-#         self.nov_scans = fetch_scans(subject_dir=pjoin(self.cimaq_nov_dir, self.sub_id[1]))
-#         self.mar_infos = fetch_infos(subject_dir=pjoin(self.cimaq_mar_dir, self.sub_id[0]))
-#         self.nov_infos = fetch_infos(pjoin(self.cimaq_nov_dir, self.sub_id[0]))
-        self.nov_scans = df(((grp, lu.loadfiles([itm for itm in
-                                    lu.loadimages(pjoin(self.cimaq_nov_dir, self.sub_id[1]))
-                                    if not itm.endswith('.json')]).groupby('parent').get_group(grp).fpaths.values)
-                             for grp in lu.loadfiles([itm for itm in
-                                    lu.loadimages(pjoin(self.cimaq_nov_dir, self.sub_id[1]))
-                                    if not itm.endswith('.json')]).groupby('parent').groups)).set_index(0).T
+#         self.mar_scans = df(((grp, lu.loadfiles([itm for itm in lu.loadimages(pjoin(
+#                               self.cimaq_mar_dir, self.sub_id[0]))
+#                                   if not itm.endswith('.json')]).groupby(
+#                                        'parent').get_group(grp).fpaths.values)
+#                              for grp in lu.loadfiles([itm for itm in lu.loadimages(pjoin(
+#                                   self.cimaq_mar_dir, self.sub_id[0]))
+#                                   if not itm.endswith('.json')]).groupby(
+#                                  'parent').groups)).set_index(0).T
+    
+        self.mar_scans = fetch_scans(subject_dir=pjoin(self.cimaq_mar_dir, self.sub_id[0]))
+        self.mar_infos = fetch_infos(subject_dir=pjoin(self.cimaq_mar_dir, self.sub_id[0]))
+        self.nov_scans = fetch_scans(subject_dir=pjoin(self.cimaq_nov_dir, self.sub_id[1]))
+        self.nov_infos = fetch_infos(pjoin(self.cimaq_nov_dir, self.sub_id[1]))
+
+#         self.nov_scans = df(((grp, lu.loadfiles([itm for itm in
+#                                     lu.loadimages(pjoin(self.cimaq_nov_dir, self.sub_id[1]))
+#                                     if not itm.endswith('.json')]).groupby('parent').get_group(grp).fpaths.values)
+#                              for grp in lu.loadfiles([itm for itm in
+#                                     lu.loadimages(pjoin(self.cimaq_nov_dir, self.sub_id[1]))
+#                                     if not itm.endswith('.json')]).groupby('parent').groups)).set_index(0).T
         
-#         mar_infos = lu.loadfiles([itm for itm in
+#         self.mar_infos = df(((grp, lu.loadfiles([itm for itm in
 #                                     lu.loadimages(pjoin(self.cimaq_mar_dir, self.sub_id[0]))
-#                                     if itm.endswith('.json')])
-        self.mar_infos = df(((grp, lu.loadfiles([itm for itm in
-                                    lu.loadimages(pjoin(self.cimaq_mar_dir, self.sub_id[0]))
-                                    if itm.endswith('.json')]).groupby('parent').get_group(grp))
-                             for grp in lu.loadfiles([itm for itm in
-                                    lu.loadimages(pjoin(self.cimaq_mar_dir, self.sub_id[0]))
-                                    if itm.endswith('.json')]).groupby('parent').groups))
-#         nov_infos = lu.loadfiles([itm for itm in
+#                                     if itm.endswith('.json')]).groupby('parent').get_group(grp))
+#                              for grp in lu.loadfiles([itm for itm in
+#                                     lu.loadimages(pjoin(self.cimaq_mar_dir, self.sub_id[0]))
+#                                     if itm.endswith('.json')]).groupby('parent').groups))
+#         self.nov_infos = df(((grp, lu.loadfiles([itm for itm in
 #                                     lu.loadimages(pjoin(self.cimaq_nov_dir, self.sub_id[0]))
-#                                     if itm.endswith('.json')])
-        self.nov_infos = df(((grp, lu.loadfiles([itm for itm in
-                                    lu.loadimages(pjoin(self.cimaq_nov_dir, self.sub_id[0]))
-                                    if itm.endswith('.json')]).groupby('parent').get_group(grp))
-                             for grp in lu.loadfiles([itm for itm in
-                                    lu.loadimages(pjoin(self.cimaq_nov_dir, self.sub_id[0]))
-                                    if itm.endswith('.json')]).groupby('parent').groups))
+#                                     if itm.endswith('.json')]).groupby('parent').get_group(grp))
+#                              for grp in lu.loadfiles([itm for itm in
+#                                     lu.loadimages(pjoin(self.cimaq_nov_dir, self.sub_id[0]))
+#                                     if itm.endswith('.json')]).groupby('parent').groups))
 
         self.events = [pd.read_csv(pjoin(self.events_path, itm), sep = '\t')
                        for itm in lu.loadimages(self.events_path)
@@ -131,16 +127,9 @@ class participant_data:
              self.behav['recognition_acc'].replace({0: False, 1: True})
         self.behav.recognition_resp = \
              self.behav.recognition_resp.replace({1: 'old', 2:'new'})
-#        recognition_accuracy = [row[1].category == row[1].recognition_resp
-#                                for row in self.behav.iterrows()]
         self.behav['recognition_acc'] = self.behav.recognition_resp.values == \
                                                   self.behav.category.values
-#        outcomes = get_outcomes(self.behav)
         self.behav['outcomes'] = get_outcomes(self.behav)
-#        outcomesdict=dict(zip(self.behav.oldnumber,
-#                      self.behav.outcomes))
-#        eventscopy=self.events
-#        eventscopy['outcomes']=eventscopy.oldnumber.map(outcomesdict)
         self.events['outcomes']=self.events.oldnumber.map(dict(zip(self.behav.oldnumber,
                                                                    self.behav.outcomes)))
         self.confounds = [pd.read_csv(itm, sep='\t') for itm in
