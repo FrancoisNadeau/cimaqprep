@@ -3,6 +3,7 @@
 # __init__.py 
  
 from .clean_resampled_fmri import clean_resampled_fmri
+from .fetch_infos import fetch_infos
 from .fetch_scans import fetch_scans
 from .get_tr_nscans_frametimes import get_tr_nscans_frametimes 
 from .resample_to_smallest import resample_to_smallest 
