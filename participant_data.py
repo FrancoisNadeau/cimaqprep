@@ -22,7 +22,8 @@ from pandas import DataFrame as df
 
 import loadutils as lu
 
-from .clean_resampled_fmri import clean_resampled_fmri 
+from .clean_resampled_fmri import clean_resampled_fmri
+from .fetch_scans import fetch_scans
 from .get_tr_nscans_frametimes import get_tr_nscans_frametimes 
 from .resample_to_smallest import resample_to_smallest 
 from .get_epi_mask_fromdata import get_epi_mask_fromdata 
@@ -68,21 +69,22 @@ class participant_data:
 #         nov_scans = lu.loadfiles([itm for itm in
 #                                     lu.loadimages(pjoin(self.cimaq_nov_dir, self.sub_id[1]))
 #                                     if not itm.endswith('.json')])
-        self.mar_scans = df(((grp, lu.loadfiles([itm for itm in lu.loadimages(pjoin(
-                              self.cimaq_mar_dir, self.sub_id[0]))
-                                  if not itm.endswith('.json')]).groupby(
-                                       'parent').get_group(grp).fpaths.values)
-                             for grp in lu.loadfiles([itm for itm in lu.loadimages(pjoin(
-                                  self.cimaq_mar_dir, self.sub_id[0]))
-                                  if not itm.endswith('.json')]).groupby(
-                                 'parent').groups)).set_index(0).T
-
-        self.nov_scans = df(((grp, lu.loadfiles([itm for itm in
-                                    lu.loadimages(pjoin(self.cimaq_nov_dir, self.sub_id[1]))
-                                    if not itm.endswith('.json')]).groupby('parent').get_group(grp).fpaths.values)
-                             for grp in lu.loadfiles([itm for itm in
-                                    lu.loadimages(pjoin(self.cimaq_nov_dir, self.sub_id[1]))
-                                    if not itm.endswith('.json')]).groupby('parent').groups)).set_index(0).T
+#         self.mar_scans = df(((grp, lu.loadfiles([itm for itm in lu.loadimages(pjoin(
+#                               self.cimaq_mar_dir, self.sub_id[0]))
+#                                   if not itm.endswith('.json')]).groupby(
+#                                        'parent').get_group(grp).fpaths.values)
+#                              for grp in lu.loadfiles([itm for itm in lu.loadimages(pjoin(
+#                                   self.cimaq_mar_dir, self.sub_id[0]))
+#                                   if not itm.endswith('.json')]).groupby(
+#                                  'parent').groups)).set_index(0).T
+        self.mar_scans = fetch_scans(subject_dir=pjoin(self.cimaq_mar_dir, self.sub_id[0]))
+        self.nov_scans = fetch_scans(subject_dir=pjoin(self.cimaq_nov_dir, self.sub_id[1]))
+#         self.nov_scans = df(((grp, lu.loadfiles([itm for itm in
+#                                     lu.loadimages(pjoin(self.cimaq_nov_dir, self.sub_id[1]))
+#                                     if not itm.endswith('.json')]).groupby('parent').get_group(grp).fpaths.values)
+#                              for grp in lu.loadfiles([itm for itm in
+#                                     lu.loadimages(pjoin(self.cimaq_nov_dir, self.sub_id[1]))
+#                                     if not itm.endswith('.json')]).groupby('parent').groups)).set_index(0).T
         
 #         mar_infos = lu.loadfiles([itm for itm in
 #                                     lu.loadimages(pjoin(self.cimaq_mar_dir, self.sub_id[0]))
