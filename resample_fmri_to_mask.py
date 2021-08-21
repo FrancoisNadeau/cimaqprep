@@ -20,7 +20,8 @@ def resample_fmri_to_mask(fmri_img:nib.Nifti1Image,
     return concat_imgs([resample_to_img(source_img=img,
                                                       target_img=mask_img,
                                                       force_resample=True)
-                                      for img in tqdm(list(iter_img(fmri_img)))])
+                                      for img in tqdm(list(iter_img(fmri_img)),
+						      desc='Resampling fMRI volumes to epi mask)])
 def main():
     resample_fmri_to_mask(fmri_img, mask_img)
  
