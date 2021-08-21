@@ -63,75 +63,41 @@ class participant_data:
         # Select a random participant
         self.sub_id = subjects.sample(1).values.flatten()
         # Sort march scans and november scans in their respective DataFrames
-
-#         mar_scans = lu.loadfiles([itm for itm in lu.loadimages(pjoin(
-#             self.cimaq_mar_dir, self.sub_id[0]))
-#                                   if not itm.endswith('.json')])
-#         nov_scans = lu.loadfiles([itm for itm in
-#                                     lu.loadimages(pjoin(self.cimaq_nov_dir, self.sub_id[1]))
-#                                     if not itm.endswith('.json')])
-#         self.mar_scans = df(((grp, lu.loadfiles([itm for itm in lu.loadimages(pjoin(
-#                               self.cimaq_mar_dir, self.sub_id[0]))
-#                                   if not itm.endswith('.json')]).groupby(
-#                                        'parent').get_group(grp).fpaths.values)
-#                              for grp in lu.loadfiles([itm for itm in lu.loadimages(pjoin(
-#                                   self.cimaq_mar_dir, self.sub_id[0]))
-#                                   if not itm.endswith('.json')]).groupby(
-#                                  'parent').groups)).set_index(0).T
     
         self.mar_scans = fetch_scans(subject_dir=pjoin(self.cimaq_mar_dir, self.sub_id[0]))
         self.mar_infos = fetch_infos(subject_dir=pjoin(self.cimaq_mar_dir, self.sub_id[0]))
         self.nov_scans = fetch_scans(subject_dir=pjoin(self.cimaq_nov_dir, self.sub_id[1]))
         self.nov_infos = fetch_infos(pjoin(self.cimaq_nov_dir, self.sub_id[1]))
-
-#         self.nov_scans = df(((grp, lu.loadfiles([itm for itm in
-#                                     lu.loadimages(pjoin(self.cimaq_nov_dir, self.sub_id[1]))
-#                                     if not itm.endswith('.json')]).groupby('parent').get_group(grp).fpaths.values)
-#                              for grp in lu.loadfiles([itm for itm in
-#                                     lu.loadimages(pjoin(self.cimaq_nov_dir, self.sub_id[1]))
-#                                     if not itm.endswith('.json')]).groupby('parent').groups)).set_index(0).T
-        
-#         self.mar_infos = df(((grp, lu.loadfiles([itm for itm in
-#                                     lu.loadimages(pjoin(self.cimaq_mar_dir, self.sub_id[0]))
-#                                     if itm.endswith('.json')]).groupby('parent').get_group(grp))
-#                              for grp in lu.loadfiles([itm for itm in
-#                                     lu.loadimages(pjoin(self.cimaq_mar_dir, self.sub_id[0]))
-#                                     if itm.endswith('.json')]).groupby('parent').groups))
-#         self.nov_infos = df(((grp, lu.loadfiles([itm for itm in
-#                                     lu.loadimages(pjoin(self.cimaq_nov_dir, self.sub_id[0]))
-#                                     if itm.endswith('.json')]).groupby('parent').get_group(grp))
-#                              for grp in lu.loadfiles([itm for itm in
-#                                     lu.loadimages(pjoin(self.cimaq_nov_dir, self.sub_id[0]))
-#                                     if itm.endswith('.json')]).groupby('parent').groups))
-
-        self.events = [pd.read_csv(pjoin(self.events_path, itm), sep = '\t')
-                       for itm in lu.loadimages(self.events_path)
-                       if bname(itm).split('_')[1] == self.sub_id[0].split('-')[1]][0]
-        self.events['duration'] = [abs(row[1].stim_onset - row[1].fix_onset)
-                                   for row in self.events.iterrows()]
-        self.events = self.events.rename(columns = {'stim_onset': 'onset'})
-        self.events['trial_type'] = self.events['category']
-        self.behav = [pd.read_csv(pjoin(self.behav_path, itm), sep = '\t')
-                      for itm in lu.loadimages(self.behav_path)
-                      if bname(itm).split('_')[1] == \
-                      self.sub_id[1].split('-')[1]][0].iloc[:, :-1]
-        correctsources = self.events[['oldnumber', 'correctsource']]
-        self.behav['correctsource'] = correctsources.correctsource
-        self.behav['correctsource'] = [row[1].correctsource if row[1].oldnumber
-                                               in lu.lst_intersection(self.events.oldnumber,
-                                                                   self.behav.oldnumber)
-                                               else np.nan for row in self.behav.iterrows()]
-        self.behav['spatial_acc'] = [row[1].spatial_resp == row[1].correctsource
-                                             for row in self.behav.iterrows()]
-        self.behav['recognition_acc'] = \
-             self.behav['recognition_acc'].replace({0: False, 1: True})
-        self.behav.recognition_resp = \
-             self.behav.recognition_resp.replace({1: 'old', 2:'new'})
-        self.behav['recognition_acc'] = self.behav.recognition_resp.values == \
-                                                  self.behav.category.values
-        self.behav['outcomes'] = get_outcomes(self.behav)
-        self.events['outcomes']=self.events.oldnumber.map(dict(zip(self.behav.oldnumber,
-                                                                   self.behav.outcomes)))
+        self.events, self.behav = fetch_events_behav(self.cimaq_mar_dir, self.events_path,
+                                                     self.behav_path, self.sub_id)
+#         self.events = [pd.read_csv(pjoin(self.events_path, itm), sep = '\t')
+#                        for itm in lu.loadimages(self.events_path)
+#                        if bname(itm).split('_')[1] == self.sub_id[0].split('-')[1]][0]
+#         self.events['duration'] = [abs(row[1].stim_onset - row[1].fix_onset)
+#                                    for row in self.events.iterrows()]
+#         self.events = self.events.rename(columns = {'stim_onset': 'onset'})
+#         self.events['trial_type'] = self.events['category']
+#         self.behav = [pd.read_csv(pjoin(self.behav_path, itm), sep = '\t')
+#                       for itm in lu.loadimages(self.behav_path)
+#                       if bname(itm).split('_')[1] == \
+#                       self.sub_id[1].split('-')[1]][0].iloc[:, :-1]
+#         correctsources = self.events[['oldnumber', 'correctsource']]
+#         self.behav['correctsource'] = correctsources.correctsource
+#         self.behav['correctsource'] = [row[1].correctsource if row[1].oldnumber
+#                                                in lu.lst_intersection(self.events.oldnumber,
+#                                                                    self.behav.oldnumber)
+#                                                else np.nan for row in self.behav.iterrows()]
+#         self.behav['spatial_acc'] = [row[1].spatial_resp == row[1].correctsource
+#                                              for row in self.behav.iterrows()]
+#         self.behav['recognition_acc'] = \
+#              self.behav['recognition_acc'].replace({0: False, 1: True})
+#         self.behav.recognition_resp = \
+#              self.behav.recognition_resp.replace({1: 'old', 2:'new'})
+#         self.behav['recognition_acc'] = self.behav.recognition_resp.values == \
+#                                                   self.behav.category.values
+#         self.behav['outcomes'] = get_outcomes(self.behav)
+#         self.events['outcomes']=self.events.oldnumber.map(dict(zip(self.behav.oldnumber,
+#                                                                    self.behav.outcomes)))
         self.confounds = [pd.read_csv(itm, sep='\t') for itm in
                           lu.loadimages(pjoin(self.cimaq_mar_dir,\
                                               'derivatives/CIMAQ_fmri_memory/data/confounds/resample'))
