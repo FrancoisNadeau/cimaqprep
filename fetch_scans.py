@@ -11,7 +11,7 @@ def fetch_scans(subject_dir:Union[str,os.PathLike]) -> pd.DataFrame:
 						  if not itm.endswith('.json')])
 	return df(((grp, scans.groupby('parent').get_group(grp).fpaths.values)
                              for grp in scans.groupby(
-                                 'parent').groups)).set_index(0).T                              
+                                 'parent').groups)).T                              
 def main():
     fetch_scans(subject_dir)
  
