@@ -9,8 +9,7 @@ from os.path import expanduser as xpu
 from os.path import join as pjoin
 import loadutils as lu
 from cimaqprep.fetch_events_behav import fetch_events_behav
-from cimaqprep.fetch_infos import fetch_infos
-from cimaqprep.fetch_scans import fetch_scans
+from cimaqprep.fetch_scans_infos import fetch_scans_infos
 from cimaqprep.fetch_participant import fetch_participant
 from cimaqprep.get_tr_nscans_frametimes import get_tr_nscans_frametimes 
 from cimaqprep.get_epi_mask_fromdata import get_epi_mask_fromdata 
@@ -57,14 +56,10 @@ class participant_data:
         self.confounds_dir = (pjoin(self.data_dir,'confounds/resample'))
         self.participants_dir = pjoin(self.data_dir, 'participants')
         self.sub_id = fetch_participant(self.cimaq_mar_dir)
-        self.mar_scans = fetch_scans(pjoin(self.cimaq_mar_dir, self.sub_id[0]))
-        self.mar_infos = fetch_infos(pjoin(self.cimaq_mar_dir, self.sub_id[0]))
-        self.nov_scans = fetch_scans(pjoin(self.cimaq_nov_dir, self.sub_id[1]))
-        self.nov_infos = fetch_infos(pjoin(self.cimaq_nov_dir, self.sub_id[1]))
-        self.events, self.behav = fetch_events_behav(self.cimaq_mar_dir,
-                                                     self.events_dir,
-                                                     self.behav_dir,
-                                                     self.sub_id)
+        self.mar_scans, self.mar_infos = fetch_scans_infos(pjoin(self.cimaq_mar_dir,self.sub_id[0]))
+        self.nov_scans, self.nov_infos = fetch_scans_infos(pjoin(self.cimaq_nov_dir,self.sub_id[1]))
+        self.events, self.behav = fetch_events_behav(self.cimaq_mar_dir, self.events_dir,
+                                                     self.behav_dir, self.sub_id)
         self.confounds = [pd.read_csv(itm, sep='\t') for itm in
                           lu.loadimages(self.confounds_path)
                           if bname(itm).split('_')[1][3:] == \
