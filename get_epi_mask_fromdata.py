@@ -34,7 +34,8 @@ def get_epi_mask_fromdata(imgs):
                                                    len(load_img(img).shape)==3
                                                    else[mean_img(vol) for vol in
                                                         iter_img(load_img(img))]]
-                                                  for img in tqdm(imgs)
+                                                  for img in tqdm(list(imgs),
+                                                                  desc='computing EPI mask')
                                                   if '_epi' in img)), auto_resample=True))))
     return compute_multi_epi_mask(epi_imgs=all_resampled_epi_imgs)
     
