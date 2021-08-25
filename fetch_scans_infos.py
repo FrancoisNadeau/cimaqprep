@@ -3,6 +3,7 @@
 import os
 import pandas as pd
 from pandas import DataFrame as df
+from tqdm import tqdm
 from typing import Union
 import loadutils as lu
 
@@ -28,8 +29,8 @@ def fetch_scans_infos(subject_dir:Union[str,os.PathLike]) -> pd.DataFrame:
     infos = lu.filterlist_exc(exclude=scans,str_lst=subject_files)
     def regroup_data(col:str,data:pd.DataFrame) -> pd.DataFrame:
         return df(((grp, data.groupby(col).get_group(grp).fpaths.values)
-                             for grp in data.groupby(
-                                 col).groups)).set_index(0).T
+                             for grp in tqdm(list(data.groupby(
+                                 col).groups), desc='fetching scans and infos'))).set_index(0).T
     scan_df = regroup_data(col='parent',data=lu.loadfiles(scans))
     info_df = regroup_data(col='parent',data=lu.loadfiles(infos))
     return scan_df,info_df
