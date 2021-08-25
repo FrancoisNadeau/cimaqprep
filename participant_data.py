@@ -7,6 +7,7 @@ import pandas as pd
 from os.path import basename as bname
 from os.path import expanduser as xpu
 from os.path import join as pjoin
+from tqdm import tqdm
 import loadutils as lu
 from cimaqprep.fetch_events_behav import fetch_events_behav
 from cimaqprep.fetch_scans_infos import fetch_scans_infos
@@ -61,7 +62,8 @@ class participant_data:
         self.events, self.behav = fetch_events_behav(self.cimaq_mar_dir, self.events_dir,
                                                      self.behav_dir, self.sub_id)
         self.confounds = [pd.read_csv(itm, sep='\t') for itm in
-                          lu.loadimages(self.confounds_dir)
+                          tqdm(lu.loadimages(self.confounds_dir),
+                               desc = 'fetching confounds')
                           if bname(itm).split('_')[1][3:] == \
                               self.sub_id[0].split('-')[1]][0]
 
