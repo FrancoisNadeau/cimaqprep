@@ -1,0 +1,6 @@
+{
+ "cimaq_nov_dir" : "xpu('~/../../data/cisl/DATA/cimaq_20190901')",
+ "cimaq_mar_dir" : "xpu('~/../../data/cisl/DATA/cimaq_03-19')",
+ "events_dir" : "xpu('~/../../data/cisl/DATA/cimaq_corrected_events/events')",
+ "behav_dir" : "xpu('~/../../data/cisl/DATA/cimaq_corrected_behavioural/behavioural')"
+}

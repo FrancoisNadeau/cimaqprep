@@ -4,8 +4,7 @@
  
 from .clean_resampled_fmri import clean_resampled_fmri
 from .fetch_events_behav import fetch_events_behav
-from .fetch_infos import fetch_infos
-from .fetch_scans import fetch_scans
+from .fetch_scans_infos import fetch_scans_infos
 from .fetch_participant import fetch_participant
 from .get_tr_nscans_frametimes import get_tr_nscans_frametimes 
 from .resample_to_smallest import resample_to_smallest 
