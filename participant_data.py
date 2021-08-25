@@ -61,7 +61,7 @@ class participant_data:
         self.events, self.behav = fetch_events_behav(self.cimaq_mar_dir, self.events_dir,
                                                      self.behav_dir, self.sub_id)
         self.confounds = [pd.read_csv(itm, sep='\t') for itm in
-                          lu.loadimages(self.confounds_path)
+                          lu.loadimages(self.confounds_dir)
                           if bname(itm).split('_')[1][3:] == \
                               self.sub_id[0].split('-')[1]][0]
 
