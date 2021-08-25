@@ -1,5 +1,6 @@
 #!/usr/bin/env python3import os
 
+import os
 import pandas as pd
 from pandas import DataFrame as df
 from typing import Union
@@ -25,7 +26,7 @@ def fetch_scans_infos(subject_dir:Union[str,os.PathLike]) -> pd.DataFrame:
     subject_files = lu.loadimages(subject_dir)
     scans = lu.filterlist_exc(exclude=['.json'], str_lst=subject_files)
     infos = lu.filterlist_exc(exclude=scans,str_lst=subject_files)
-    def regroup_data(col:str,data:pd.DataFrame):
+    def regroup_data(col:str,data:pd.DataFrame) -> pd.DataFrame:
         return df(((grp, data.groupby(col).get_group(grp).fpaths.values)
                              for grp in data.groupby(
                                  col).groups)).set_index(0).T
