@@ -5,6 +5,7 @@ import nilearn
 from nilearn import masking
 from nilearn.plotting import plot_stat_map, plot_anat, plot_img, plot_epi
 from nilearn.image import clean_img, concat_imgs, mean_img
+from nilearn.input_data import NiftiMasker
 import numpy as np
 import os
 from typing import Union
@@ -109,6 +110,23 @@ class participant_data:
                         for row in tqdm(test.iterrows(),
                                         desc='resampling fMRI image to events lenght')]
         self.cleaned_func = concat_imgs(test.images)
+        # Compute masker from EPI mask and resampled fMRI image
+        self.masker = NiftiMasker(mask_img=self.mar_epi_mask,
+                             mask_strategy='epi',
+                             runs=None,
+                             smoothing_fwhm=9.0,
+                             standardize=True,
+                             detrend=True,
+                             high_variance_confounds=True,
+                             high_pass=0.09,
+                             low_pass=0.21,
+                             target_affine=self.mar_epi_mask.affine,
+                             target_shape=self.mar_epi_mask.shape,
+                             t_r=self.t_r,
+                             dtype=float,
+                             mask_args=dict(opening=True))
+        self.masker = masker.fit(self.cleaned_func)
+        self.masker_report = masker.generate_report()
 #         self.mar_epi_mask = get_epi_mask_fromdata(imgs=self.mar_scans.fmap[1])
 #         self.nov_epi_mask = get_epi_mask_fromdata(imgs=self.nov_scans.fmap[1])
 #         self.resampled_fmri_to_events = \
