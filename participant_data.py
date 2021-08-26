@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import nibabel as nib
 import nilearn
 import numpy as np
 import os
