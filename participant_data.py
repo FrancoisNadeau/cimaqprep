@@ -2,6 +2,9 @@
 
 import nibabel as nib
 import nilearn
+from nilearn import masking
+from nilearn.plotting import plot_stat_map, plot_anat, plot_img, plot_epi
+from nilearn.image import clean_img, concat_imgs, mean_img
 import numpy as np
 import os
 from typing import Union
@@ -42,9 +45,6 @@ class participant_data:
                       object containing a single participant's data
                       (scans, infos, events and behavioural)
     '''
-    from nilearn import masking
-    from nilearn.plotting import plot_stat_map, plot_anat, plot_img, plot_epi
-    from nilearn.image import clean_img, concat_imgs, mean_img
     def __init__(self,cimaq_nov_dir:Union[str,os.PathLike],
                  cimaq_mar_dir:Union[str,os.PathLike],
                  events_dir:Union[str,os.PathLike],
