@@ -104,7 +104,7 @@ class participant_data:
         test=df(pd.cut(decomp_func['frame_times'], self.events.shape[0]))
         test=df(test.frame_times.unique(), columns=['frame_times'])
         test['images']=[mean_img(concat_imgs([subrow[1].images for
-                                              subrow in tqdm(tuple(imgdf.iterrows()))
+                                              subrow in imgdf.iterrows()
                                               if subrow[1].frame_times
                                               in row[1].frame_times]))
                         for row in tqdm(tuple(test.iterrows()),
