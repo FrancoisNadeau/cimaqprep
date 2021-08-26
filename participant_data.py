@@ -72,22 +72,22 @@ class participant_data:
         self.resampled_frame_times = \
             np.arange(0, self.frame_times.max(),
                       self.frame_times.max()/self.events.shape[0])
-        self.mar_epi_mask = get_epi_mask_fromdata(imgs=self.mar_scans.fmap[1])
-        self.nov_epi_mask = get_epi_mask_fromdata(imgs=self.nov_scans.fmap[1])
-        self.resampled_fmri_to_events = \
-            resample_fmri_to_events(fmri_img=self.mar_scans.func[1][0],
-                                    mask_img=self.mar_epi_mask,
-                                    resample_to_mask=True,
-                                    clean_resampled_imgs=True,
-                                    **{'confounds':self.confounds,
-                                       'low_pass':None,
-                                       'high_pass':None,
-                                       'detrend':True,
-                                       'standardize':True,
-                                       't_r':self.t_r,
-                                       'ensure_finite':True,
-                                       'frame_times':self.frame_times,
-                                       'n_events':self.events})[1]
+#         self.mar_epi_mask = get_epi_mask_fromdata(imgs=self.mar_scans.fmap[1])
+#         self.nov_epi_mask = get_epi_mask_fromdata(imgs=self.nov_scans.fmap[1])
+#         self.resampled_fmri_to_events = \
+#             resample_fmri_to_events(fmri_img=self.mar_scans.func[1][0],
+#                                     mask_img=self.mar_epi_mask,
+#                                     resample_to_mask=True,
+#                                     clean_resampled_imgs=True,
+#                                     **{'confounds':self.confounds,
+#                                        'low_pass':None,
+#                                        'high_pass':None,
+#                                        'detrend':True,
+#                                        'standardize':True,
+#                                        't_r':self.t_r,
+#                                        'ensure_finite':True,
+#                                        'frame_times':self.frame_times,
+#                                        'n_events':self.events})[1]
 def main():
     subject = participant_data(
         cimaq_nov_dir = xpu('~/../../media/francois/seagate_1tb/cimaq_20190901'),
