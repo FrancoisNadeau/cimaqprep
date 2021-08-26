@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import nilearn
 from nilearn.image import clean_img, iter_img, load_img, resample_to_img
 from nilearn.masking import compute_multi_epi_mask
 import collections
