@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import nilearn
 import numpy as np
 import os
 from typing import Union
@@ -42,7 +43,7 @@ class participant_data:
     '''
     from nilearn import masking
     from nilearn.plotting import plot_stat_map, plot_anat, plot_img, plot_epi
-    from nilearn.image import concat_imgs, mean_img
+    from nilearn.image import clean_img, concat_imgs, mean_img
     def __init__(self,cimaq_nov_dir:Union[str,os.PathLike],
                  cimaq_mar_dir:Union[str,os.PathLike],
                  events_dir:Union[str,os.PathLike],
@@ -72,6 +73,40 @@ class participant_data:
         self.resampled_frame_times = \
             np.arange(0, self.frame_times.max(),
                       self.frame_times.max()/self.events.shape[0])
+        # Compute EPI mask
+        func_img=nib.load(self.mar_scans.func[1][0])
+        self.mar_epi_mask=nilearn.masking.compute_epi_mask(epi_img=self.mar_scans.fmap[1][-1],
+                                              connected=True,
+                                              opening=True,ensure_finite=True,
+                                              exclude_zeros=True,
+                                              target_shape=mean_img(func_img).shape,
+                                              target_affine=mean_img(func_img).affine)
+
+        # Clean functional image using motion and scanner drift confounds
+        self.clean_func=clean_img(imgs=self.mar_scans.func[1][0],
+                             sessions=None,
+                             detrend=False,
+                             standardize=False,
+                             confounds=self.confounds,
+        #                                    low_pass=0.21, high_pass=0.09,
+                             t_r=self.t_r,
+                             ensure_finite=True,
+                             mask_img=self.mar_epi_mask)
+
+        # Resample fMRI image slices to events lenght
+        decomp_func = df(self.frame_times,columns=['frame_times'])
+        imgdf=df(zip(self.frame_times,
+                     list(nilearn.image.iter_img(self.clean_func))),
+                 columns=['frame_times','images'])
+        test=df(pd.cut(decomp_func['frame_times'], self.events.shape[0]))
+        test=df(test.frame_times.unique(), columns=['frame_times'])
+        test['images']=[mean_img(concat_imgs([subrow[1].images for
+                                              subrow in tqdm(imgdf.iterrows())
+                                              if subrow[1].frame_times
+                                              in row[1].frame_times]))
+                        for row in tqdm(test.iterrows(),
+                                        desc='resampling fMRI image to events lenght')]
+        self.cleaned_func = concat_imgs(test.images)
 #         self.mar_epi_mask = get_epi_mask_fromdata(imgs=self.mar_scans.fmap[1])
 #         self.nov_epi_mask = get_epi_mask_fromdata(imgs=self.nov_scans.fmap[1])
 #         self.resampled_fmri_to_events = \
