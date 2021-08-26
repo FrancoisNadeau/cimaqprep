@@ -125,8 +125,8 @@ class participant_data:
                              t_r=self.t_r,
                              dtype=float,
                              mask_args=dict(opening=True))
-        self.masker = masker.fit(self.cleaned_func)
-        self.masker_report = masker.generate_report()
+        self.masker = self.masker.fit(self.cleaned_func)
+        self.masker_report = self.masker.generate_report()
 #         self.mar_epi_mask = get_epi_mask_fromdata(imgs=self.mar_scans.fmap[1])
 #         self.nov_epi_mask = get_epi_mask_fromdata(imgs=self.nov_scans.fmap[1])
 #         self.resampled_fmri_to_events = \
