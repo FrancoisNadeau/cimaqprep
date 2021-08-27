@@ -4,12 +4,15 @@ jupyterhub
 jupyter_contrib_nbextensions
 nibabel
 nilearn
+nipype
+nitime
 notebook
 numpy
 pandas
 pysql2
 pysql3
 regex
+seaborn
 sklearn
 tqdm
 wheel
