@@ -172,7 +172,7 @@ def main():
         cimaq_nov_dir = xpu('~/../../media/francois/seagate_1tb/cimaq_20190901'),
         cimaq_mar_dir = xpu('~/../../media/francois/seagate_1tb/cimaq_03-19'),
         events_dir = xpu('~/../../media/francois/seagate_1tb/cimaq_corrected_events/events'),
-        behav_dir = xpu('~/../../media/francois/seagate_1tb/cimaq_corrected_behavioural/behavioural')
+        behav_dir = xpu('~/../../media/francois/seagate_1tb/cimaq_corrected_behavioural/behavioural'),
         masker_params_dir = xpu('~/../../media/francois/seagate_1tb/cimaq_common_masker_params.json'))
     return subject
  
