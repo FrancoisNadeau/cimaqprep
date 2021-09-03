@@ -77,7 +77,7 @@ def resample_fmri_to_events(func_img,
 #                                desc='resampling fMRI volumnes to events')))
 
     imgdf=df(zip(frame_times,
-                 list(nilearn.image.iter_img(func_img))),
+                 list(iter_img(func_img))),
              columns=['frame_times','images'])
     test=df(pd.cut(imgdf['frame_times'], n_events))
     newtimes=df(test.frame_times.unique(), columns=['frame_times'])
