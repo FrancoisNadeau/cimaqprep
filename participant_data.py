@@ -98,7 +98,7 @@ class participant_data:
                                              target_shape=nib.load(self.mar_scans.func[1][0]).shape[:-1],
                                              memory=None,
                                              verbose=0)
-        self.resample_fmri_to_events = cimaqprep.resample_fmri_to_events
+        self.resample_fmri_to_events = resample_fmri_to_events
         self.common_masker_params = lu.read_json(self.masker_params_dir)
         self.atlas = nilearn.datasets.fetch_atlas_difumo(dimension=1024,
                                                          resolution_mm=3,
