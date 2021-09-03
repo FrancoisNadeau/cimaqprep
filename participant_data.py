@@ -96,7 +96,26 @@ class participant_data:
                                              target_shape=nib.load(self.mar_scans.func[1][0]).shape[:-1],
                                              memory=None,
                                              verbose=0)
+        self.resample_fmri_to_events = cimaqprep.resample_fmri_to_events
         self.common_masker_params = lu.read_json(self.masker_params_dir)
+        self.maps_masker_params = dict(mask_img=self.mar_epi_mask,
+                                       maps_img=difumo1024.maps,
+                                       allow_overlap=True,
+                                       resampling_target='mask',
+                                       **self.common_masker_params)
+        self.maps_masker = \
+            nilearn.input_data.NiftiMapsMasker(**maps_masker_params).fit()
+
+        self.maps_maps_region_signals = \
+            self.maps_masker.transform_single_imgs(imgs=self.mar_scans.func[1][0],
+                                                   confounds=self.confounds)
+        self.maps_maps_inverse_func = \
+            self.maps_masker.inverse_transform(region_signals=self.maps_maps_region_signals)
+        self.maps_elements_region_signals = \
+        self.maps_masker.transform(imgs=self.mar_scans.func[1][0],
+                                   confounds=self.confounds)
+        self.maps_elements_inverse_func = \
+        self.maps_masker.inverse_transform(region_signals=maps_elements_region_signals)
         self.nifti_masker_params = dict(mask_img=self.mar_epi_mask,
                                         runs=None,
                                         target_affine=self.mar_epi_mask.affine,
