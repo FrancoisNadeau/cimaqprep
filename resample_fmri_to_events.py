@@ -21,7 +21,7 @@ def resample_fmri_to_events(fmri_img:nib.Nifti1Image,
                             t_r:float=None,
                             frame_times:collections.abc.Iterable=None,
 #                             resample_to_mask:bool=True,
-                            clean_resampled_imgs:bool=True,
+#                             clean_resampled_imgs:bool=True,
                             **kwargs):
     '''
     Description
@@ -43,17 +43,17 @@ def resample_fmri_to_events(fmri_img:nib.Nifti1Image,
     -------
     List of fMRI slices of lenght equal to the number of trials (n_events)
     '''
-    img_shapes_as_mask_shape = pd.Series(img.shape == mask_img.shape
-                                         for img in list(iter_img(fmri_img))).unique()[0] == True
-    if img_shapes_as_mask_shape:
-        fmri_img = fmri_img
-    else:
-        fmri_img = cimaqprep.resample_fmri_to_mask(fmri_img, mask_img)
-    if clean_resampled_imgs:
-        fmri_img = cimaqprep.clean_resampled_fmri(fmri_img=fmri_img,
-                                         mask_img=mask_img, **kwargs)
-    else:
-        fmri_img = fmri_img
+#     img_shapes_as_mask_shape = pd.Series(img.shape == mask_img.shape
+#                                          for img in list(iter_img(fmri_img))).unique()[0] == True
+#     if img_shapes_as_mask_shape:
+#         fmri_img = fmri_img
+#     else:
+#         fmri_img = cimaqprep.resample_fmri_to_mask(fmri_img, mask_img)
+#     if clean_resampled_imgs:
+#         fmri_img = cimaqprep.clean_resampled_fmri(fmri_img=fmri_img,
+#                                          mask_img=mask_img, **kwargs)
+#     else:
+#         fmri_img = fmri_img
     if frame_times is not None:
         frame_times=frame_times
     if t_r:
