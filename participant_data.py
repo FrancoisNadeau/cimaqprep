@@ -96,7 +96,7 @@ class participant_data:
                                              target_shape=nib.load(self.mar_scans.func[1][0]).shape[:-1],
                                              memory=None,
                                              verbose=0)
-        self.common_masker_params = lu.read_json(self.masker_params_dir))
+        self.common_masker_params = lu.read_json(self.masker_params_dir)
         self.nifti_masker_params = dict(mask_img=self.mar_epi_mask,
                                         runs=None,
                                         target_affine=self.mar_epi_mask.affine,
