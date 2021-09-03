@@ -106,7 +106,8 @@ class participant_data:
                                         sample_mask=None,
                                         reports=True,
                                         **self.common_masker_params)
-        self.nifti_masker = nilearn.input_data.NiftiMasker(**self.nifti_masker_params)
+        self.nifti_masker = nilearn.input_data.NiftiMasker(**self.nifti_masker_params,
+                                                           mask_args=dict(opening=True))
 
 #         # Clean functional image using motion and scanner drift confounds
 #         self.clean_func=clean_img(imgs=self.mar_scans.func[1][0],
