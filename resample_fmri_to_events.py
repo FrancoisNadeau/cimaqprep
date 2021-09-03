@@ -86,7 +86,7 @@ def resample_fmri_to_events(func_img,
                         if subrow[1].frame_times in row[1].frame_times]))
                         for row in tqdm(list(newtimes.iterrows()),
                                         desc='resampling fMRI image to events lenght')]
-    return concat_imgs(newtimes.images).shape
+    return concat_imgs(newtimes.images)
 
 def main():
     resample_fmri_to_events(fmri_img)
