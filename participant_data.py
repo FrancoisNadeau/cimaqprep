@@ -111,7 +111,7 @@ class participant_data:
                                        resampling_target='mask',
                                        **self.common_masker_params)
         self.maps_masker = \
-            nilearn.input_data.NiftiMapsMasker(**maps_masker_params).fit()
+            nilearn.input_data.NiftiMapsMasker(**self.maps_masker_params).fit()
 
         self.maps_maps_region_signals = \
             self.maps_masker.transform_single_imgs(imgs=self.mar_scans.func[1][0],
