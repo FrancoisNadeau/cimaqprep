@@ -51,11 +51,13 @@ class participant_data:
                  cimaq_mar_dir:Union[str,os.PathLike],
                  events_dir:Union[str,os.PathLike],
                  behav_dir:Union[str,os.PathLike],
+                 masker_params_dir:Union[str,os.PathLike],
                  **kwargs):
         self.cimaq_nov_dir = cimaq_nov_dir
         self.cimaq_mar_dir = cimaq_mar_dir
         self.events_dir = events_dir
         self.behav_dir = behav_dir
+        self.masker_params_dir = masker_params_dir
         self.data_dir = pjoin(self.cimaq_mar_dir,
                               'derivatives/CIMAQ_fmri_memory/data/')
         self.confounds_dir = (pjoin(self.data_dir,'confounds/resample'))
@@ -94,7 +96,7 @@ class participant_data:
                                              target_shape=nib.load(self.mar_scans.func[1][0]).shape[:-1],
                                              memory=None,
                                              verbose=0)
-        self.common_masker_params = lu.read_json(pjoin(os.getcwd(), 'common_masker_params.json'))
+        self.common_masker_params = lu.read_json(self.masker_params_dir))
         self.nifti_masker_params = dict(mask_img=self.mar_epi_mask,
                                         runs=None,
                                         target_affine=self.mar_epi_mask.affine,
@@ -170,7 +172,8 @@ def main():
         cimaq_nov_dir = xpu('~/../../media/francois/seagate_1tb/cimaq_20190901'),
         cimaq_mar_dir = xpu('~/../../media/francois/seagate_1tb/cimaq_03-19'),
         events_dir = xpu('~/../../media/francois/seagate_1tb/cimaq_corrected_events/events'),
-        behav_dir = xpu('~/../../media/francois/seagate_1tb/cimaq_corrected_behavioural/behavioural'))
+        behav_dir = xpu('~/../../media/francois/seagate_1tb/cimaq_corrected_behavioural/behavioural')
+        masker_params_dir = xpu('~/../../media/francois/seagate_1tb/cimaq_common_masker_params.json'))
     return subject
  
 if __name__ == "__main__":
