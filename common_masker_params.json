@@ -1,1 +1,0 @@
-{"smoothing_fwhm": 9, "standardize": true, "standardize_confounds": true, "high_variance_confounds": true, "detrend": true, "high_pass": 0.09, "low_pass": 0.21, "t_r": 2.5, "dtype": null, "memory_level": 1, "verbose": 0}
