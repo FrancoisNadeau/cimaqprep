@@ -13,16 +13,18 @@ import pandas as pd
 from pandas import DataFrame as df
 
 import loadutils as lu
-import cimaqprep
 
-def resample_fmri_to_events(fmri_img:nib.Nifti1Image,
-                            mask_img:nib.Nifti1Image=None,
-                            n_events:Union[int,pd.DataFrame,np.array]=None,
-                            t_r:float=None,
-                            frame_times:collections.abc.Iterable=None,
-#                             resample_to_mask:bool=True,
-#                             clean_resampled_imgs:bool=True,
-                            **kwargs):
+# def resample_fmri_to_events(fmri_img:nib.Nifti1Image,
+#                             mask_img:nib.Nifti1Image=None,
+#                             n_events:Union[int,pd.DataFrame,np.array]=None,
+#                             t_r:float=None,
+#                             frame_times:collections.abc.Iterable=None,
+# #                             resample_to_mask:bool=True,
+# #                             clean_resampled_imgs:bool=True,
+#                             **kwargs):
+def resample_fmri_to_events(func_img,
+                            frame_times,
+                            n_events):
     '''
     Description
     -----------
@@ -64,19 +66,30 @@ def resample_fmri_to_events(fmri_img:nib.Nifti1Image,
         n_events = n_events
     if isinstance(n_events, (pd.DataFrame, np.ndarray)):
         n_events = n_events.shape[0]
-    decomp_func = df((img for img in iter_img(fmri_img)),
-                     columns=['imgs'])
-    decomp_func['frame_times'] = frame_times
-    test=df(pd.cut(decomp_func['frame_times'], n_events))
-    test['imgs'] = decomp_func['imgs']
-    return df(((grp, mean_img(
-                test.groupby('frame_times').get_group(grp)['imgs']))
-               for grp in tqdm(list(test.groupby('frame_times').groups),
-                               desc='resampling fMRI volumnes to events')))
+#     decomp_func = df((img for img in iter_img(fmri_img)),
+#                      columns=['imgs'])
+#     decomp_func['frame_times'] = frame_times
+#     test=df(pd.cut(decomp_func['frame_times'], n_events))
+#     test['imgs'] = decomp_func['imgs']
+#     return df(((grp, mean_img(
+#                 test.groupby('frame_times').get_group(grp)['imgs']))
+#                for grp in tqdm(list(test.groupby('frame_times').groups),
+#                                desc='resampling fMRI volumnes to events')))
+
+    imgdf=df(zip(frame_times,
+                 list(nilearn.image.iter_img(func_img))),
+             columns=['frame_times','images'])
+    test=df(pd.cut(imgdf['frame_times'], n_events))
+    newtimes=df(test.frame_times.unique(), columns=['frame_times'])
+    newtimes['images']=[mean_img(concat_imgs([subrow[1].images
+                                              for subrow in imgdf.iterrows()
+                        if subrow[1].frame_times in row[1].frame_times]))
+                        for row in tqdm(list(newtimes.iterrows()),
+                                        desc='resampling fMRI image to events lenght')]
+    return concat_imgs(newtimes.images).shape
 
 def main():
     resample_fmri_to_events(fmri_img)
  
 if __name__ == "__main__":
     main()
-
