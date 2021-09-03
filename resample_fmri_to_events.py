@@ -56,16 +56,16 @@ def resample_fmri_to_events(func_img,
 #                                          mask_img=mask_img, **kwargs)
 #     else:
 #         fmri_img = fmri_img
-    if frame_times is not None:
-        frame_times=frame_times
-    if t_r:
-        t_r = t_r
-    if not t_r and not frame_times:
-        t_r, n_scans, frame_times = get_tr_nscans_frametimes(fmri_img)
-    if isinstance(n_events, int):
-        n_events = n_events
-    if isinstance(n_events, (pd.DataFrame, np.ndarray)):
-        n_events = n_events.shape[0]
+#     if frame_times is not None:
+#         frame_times=frame_times
+#     if t_r:
+#         t_r = t_r
+#     if not t_r and not frame_times:
+#         t_r, n_scans, frame_times = get_tr_nscans_frametimes(fmri_img)
+#     if isinstance(n_events, int):
+#         n_events = n_events
+#     if isinstance(n_events, (pd.DataFrame, np.ndarray)):
+#         n_events = n_events.shape[0]
 #     decomp_func = df((img for img in iter_img(fmri_img)),
 #                      columns=['imgs'])
 #     decomp_func['frame_times'] = frame_times
