@@ -52,6 +52,7 @@ class participant_data:
                  events_dir:Union[str,os.PathLike],
                  behav_dir:Union[str,os.PathLike],
                  masker_params_dir:Union[str,os.PathLike],
+                 atlas_dir:Union[str,os.PathLike],
                  **kwargs):
         self.cimaq_nov_dir = cimaq_nov_dir
         self.cimaq_mar_dir = cimaq_mar_dir
@@ -62,6 +63,7 @@ class participant_data:
                               'derivatives/CIMAQ_fmri_memory/data/')
         self.confounds_dir = (pjoin(self.data_dir,'confounds/resample'))
         self.participants_dir = pjoin(self.data_dir, 'participants')
+        self.atlas_dir = xpu(atlas_dir)
         self.sub_id = fetch_participant(self.cimaq_mar_dir)
         self.mar_scans, self.mar_infos = fetch_scans_infos(pjoin(self.cimaq_mar_dir,self.sub_id[0]))
         self.nov_scans, self.nov_infos = fetch_scans_infos(pjoin(self.cimaq_nov_dir,self.sub_id[1]))
@@ -98,8 +100,13 @@ class participant_data:
                                              verbose=0)
         self.resample_fmri_to_events = cimaqprep.resample_fmri_to_events
         self.common_masker_params = lu.read_json(self.masker_params_dir)
+        self.atlas = nilearn.datasets.fetch_atlas_difumo(dimension=1024,
+                                                         resolution_mm=3,
+                                                         data_dir=self.atlas_dir,
+                                                         resume=True,
+                                                         verbose=1)
         self.maps_masker_params = dict(mask_img=self.mar_epi_mask,
-                                       maps_img=difumo1024.maps,
+                                       maps_img=self.atlas.maps,
                                        allow_overlap=True,
                                        resampling_target='mask',
                                        **self.common_masker_params)
@@ -192,7 +199,8 @@ def main():
         cimaq_mar_dir = xpu('~/../../media/francois/seagate_1tb/cimaq_03-19'),
         events_dir = xpu('~/../../media/francois/seagate_1tb/cimaq_corrected_events/events'),
         behav_dir = xpu('~/../../media/francois/seagate_1tb/cimaq_corrected_behavioural/behavioural'),
-        masker_params_dir = xpu('~/../../media/francois/seagate_1tb/cimaq_common_masker_params.json'))
+        masker_params_dir = xpu('~/../../media/francois/seagate_1tb/cimaq_common_masker_params.json'),
+        atlas_dir = xpu('~/../../media/francois/seagate_1tb/DiFuMo'))
     return subject
  
 if __name__ == "__main__":
