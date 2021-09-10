@@ -53,7 +53,7 @@ class participant_data:
                  events_dir:Union[str,os.PathLike],
                  behav_dir:Union[str,os.PathLike],
                  masker_params_dir:Union[str,os.PathLike],
-                 sub_id,
+                 sub_id=None,
 #                  atlas_dir:Union[str,os.PathLike],
                  **kwargs):
         self.cimaq_nov_dir = cimaq_nov_dir
