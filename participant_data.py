@@ -64,6 +64,7 @@ class participant_data:
         self.data_dir = pjoin(self.cimaq_mar_dir, 'derivatives/CIMAQ_fmri_memory/data/')
         self.confounds_dir = (pjoin(self.data_dir,'confounds/resample'))
         self.participants_dir = pjoin(self.data_dir, 'participants')
+        self.sub_id = sub_id
         if self.sub_id == None:
             self.sub_id = fetch_participant(self.cimaq_mar_dir)
         self.mar_scans, self.mar_infos = fetch_scans_infos(pjoin(self.cimaq_mar_dir,self.sub_id[0]))
