@@ -1,18 +1,20 @@
+# Uncheck checked lines if intemded to use with jupyter notebook and GUI
 build
-jupyter
-jupyterhub
-jupyter_contrib_nbextensions
+#jupyter
+#jupyterhub
+#jupyter_contrib_nbextensions
 nibabel
 nilearn
 nipype
 nitime
-notebook
+#notebook
 numpy
 pandas
-pysql3
+#pysql3
 regex
 seaborn
 sklearn
 tqdm
 wheel
 unidecode
+git+https://github.com/FrancoisNadeau/loadutils.git
