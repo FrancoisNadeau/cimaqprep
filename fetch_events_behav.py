@@ -39,9 +39,6 @@ def fetch_events_behav(cimaq_mar_dir:Union[str, os.PathLike],
 			  for itm in tqdm(lu.loadimages(events_path),
                                desc='fetching in-scan events')
 			  if bname(itm).split('_')[1] == sub_id[0].split('-')[1]][0]
-#     events['duration'] = [abs(row[1].stim_onset - row[1].fix_onset)
-#                                for row in tqdm(events.iterrows(),
-#                                                 desc='computing trial durations')]
     events = events.rename(columns = {'stim_onset': 'onset'})
     events['trial_type'] = events['category']
     behav = [pd.read_csv(pjoin(behav_path, itm), sep = '\t')
