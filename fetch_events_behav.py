@@ -61,7 +61,7 @@ def fetch_events_behav(cimaq_mar_dir:Union[str, os.PathLike],
     behav['outcomes'] = get_outcomes(behav)
     events['outcomes']=events.oldnumber.map(dict(zip(behav.oldnumber, behav.outcomes)))
     func_dir = pjoin(cimaq_mar_dir,sub_id[0],'ses-4/func')
-    func_hdr = dict(nib.load(pjoin(func_dir, os.listdir(func_dir)[1])).header)
+    func_hdr = dict(nib.load(pjoin(func_dir, sorted(os.listdir(func_dir))[1])).header)
     scan_shape, scan_tr = func_hdr['dim'][4],func_hdr['pixdim'][4]
     scan_dur=scan_shape*scan_tr
     events=events.drop('Unnamed: 0',axis=1).where(events.onset+events.duration < scan_dur)
