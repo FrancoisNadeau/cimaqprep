@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import nibabel as nib
 import numpy as np
 import os
 from os import listdir as ls
@@ -62,7 +63,10 @@ def fetch_events_behav(cimaq_mar_dir:Union[str, os.PathLike],
     behav['recognition_acc'] = behav.recognition_resp.values == behav.category.values
     behav['outcomes'] = get_outcomes(behav)
     events['outcomes']=events.oldnumber.map(dict(zip(behav.oldnumber, behav.outcomes)))
-    scan_dur=nib.load(subject00.mar_scans.func[1][0]).shape[-1]*2.5
+    func_dir = pjoin(cimaq_mar_dir,sub_id[0],'ses-4/func')
+	func_hdr = dict(nib.load(pjoin(func_dir, os.path.listdir(func_dir)[1])).header)
+    scan_shape, scan_tr = func_hdr['dim'][4],func_hdr['pixdim'][4]
+    scan_dur=scan_shape*scan_tr
     events=events.drop('Unnamed: 0',axis=1).where(events.onset+events.duration < scan_dur)
     todrop=[row[0] for row in events.iterrows()
             if row[1].isnull().all()]
