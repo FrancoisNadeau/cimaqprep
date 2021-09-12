@@ -51,10 +51,9 @@ class participant_data:
                  cimaq_mar_dir:Union[str,os.PathLike],
                  events_dir:Union[str,os.PathLike],
                  behav_dir:Union[str,os.PathLike],
-                 masker_params_dir:Union[str,os.PathLike],
+                 masker_params_dir:Union[str,os.PathLike]=None,
                  cimaq_nov_dir:Union[str,os.PathLike]=None,
                  sub_id=None,
-#                  atlas_dir:Union[str,os.PathLike],
                  **kwargs):
         self.cimaq_nov_dir = cimaq_nov_dir
         self.cimaq_mar_dir = cimaq_mar_dir
@@ -96,19 +95,19 @@ class participant_data:
                                              target_shape=nib.load(self.mar_scans.func[1][0]).shape[:-1],
                                              memory=None,
                                              verbose=0)
-        self.resample_fmri_to_events = resample_fmri_to_events
-        self.common_masker_params = lu.read_json(self.masker_params_dir)
-        self.nifti_masker_params = dict(mask_img=self.mar_epi_mask,
-                                        runs=None,
-                                        target_affine=self.mar_epi_mask.affine,
-                                        target_shape=self.mar_epi_mask.shape,
-                                        mask_strategy='epi',
-                                        mask_args=None,
-                                        sample_mask=None,
-                                        reports=True,
-                                        **self.common_masker_params)
-        self.nifti_masker = \
-            nilearn.input_data.NiftiMasker(**self.nifti_masker_params)
+#        self.resample_fmri_to_events = resample_fmri_to_events
+#        self.common_masker_params = lu.read_json(self.masker_params_dir)
+#         self.nifti_masker_params = dict(mask_img=self.mar_epi_mask,
+#                                         runs=None,
+#                                         target_affine=self.mar_epi_mask.affine,
+#                                         target_shape=self.mar_epi_mask.shape,
+#                                         mask_strategy='epi',
+#                                         mask_args=None,
+#                                         sample_mask=None,
+#                                         reports=True,
+#                                         **self.common_masker_params)
+#         self.nifti_masker = \
+#             nilearn.input_data.NiftiMasker(**self.nifti_masker_params)
 
 def main():
     subject = participant_data(
@@ -117,7 +116,8 @@ def main():
         cimaq_mar_dir = xpu('~/../../media/francois/seagate_1tb/cimaq_03-19'),
         events_dir = xpu('~/../../media/francois/seagate_1tb/cimaq_corrected_events/events'),
         behav_dir = xpu('~/../../media/francois/seagate_1tb/cimaq_corrected_behavioural/behavioural'),
-        masker_params_dir = xpu('~/../../media/francois/seagate_1tb/cimaq_common_masker_params.json'),
+        masker_params_dir = None,
+        # xpu('~/../../media/francois/seagate_1tb/cimaq_common_masker_params.json'),
         sub_id=None)
 #         atlas_dir = xpu('~/../../media/francois/seagate_1tb/DiFuMo'))
     return subject
