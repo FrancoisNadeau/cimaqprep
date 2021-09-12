@@ -48,11 +48,11 @@ class participant_data:
                       (scans, infos, events and behavioural)
     '''
     def __init__(self,
-                 cimaq_nov_dir:Union[str,os.PathLike],
                  cimaq_mar_dir:Union[str,os.PathLike],
                  events_dir:Union[str,os.PathLike],
                  behav_dir:Union[str,os.PathLike],
                  masker_params_dir:Union[str,os.PathLike],
+                 cimaq_nov_dir:Union[str,os.PathLike]=None,
                  sub_id=None,
 #                  atlas_dir:Union[str,os.PathLike],
                  **kwargs):
@@ -68,7 +68,10 @@ class participant_data:
         if self.sub_id == None:
             self.sub_id = fetch_participant(self.cimaq_mar_dir)
         self.mar_scans, self.mar_infos = fetch_scans_infos(pjoin(self.cimaq_mar_dir,self.sub_id[0]))
-        self.nov_scans, self.nov_infos = fetch_scans_infos(pjoin(self.cimaq_nov_dir,self.sub_id[1]))
+        if self.cimaq_nov_dir == None:
+            self.nov_scans, self.nov_infos = None, None
+        else:
+            self.nov_scans, self.nov_infos = fetch_scans_infos(pjoin(self.cimaq_nov_dir,self.sub_id[1]))
         self.events, self.behav = fetch_events_behav(self.cimaq_mar_dir, self.events_dir,
                                                      self.behav_dir, self.sub_id)
         self.confounds = [pd.read_csv(itm, sep='\t') for itm in
@@ -109,7 +112,8 @@ class participant_data:
 
 def main():
     subject = participant_data(
-        cimaq_nov_dir = xpu('~/../../media/francois/seagate_1tb/cimaq_20190901'),
+        cimaq_nov_dir = None,
+        # xpu('~/../../media/francois/seagate_1tb/cimaq_20190901'),
         cimaq_mar_dir = xpu('~/../../media/francois/seagate_1tb/cimaq_03-19'),
         events_dir = xpu('~/../../media/francois/seagate_1tb/cimaq_corrected_events/events'),
         behav_dir = xpu('~/../../media/francois/seagate_1tb/cimaq_corrected_behavioural/behavioural'),
