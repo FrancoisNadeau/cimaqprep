@@ -62,6 +62,11 @@ def fetch_events_behav(cimaq_mar_dir:Union[str, os.PathLike],
     behav['recognition_acc'] = behav.recognition_resp.values == behav.category.values
     behav['outcomes'] = get_outcomes(behav)
     events['outcomes']=events.oldnumber.map(dict(zip(behav.oldnumber, behav.outcomes)))
+    scan_dur=nib.load(subject00.mar_scans.func[1][0]).shape[-1]*2.5
+    events=events.drop('Unnamed: 0',axis=1).where(events.onset+events.duration < scan_dur)
+    todrop=[row[0] for row in events.iterrows()
+            if row[1].isnull().all()]
+    events=events.drop(todrop,axis=0)
     return events, behav
 
 def main():
