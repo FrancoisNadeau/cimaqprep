@@ -25,8 +25,8 @@ def fetch_scans_infos(subject_dir:Union[str,os.PathLike]) -> pd.DataFrame:
     this subject's infos DataFrame (outputed by cimaqprep.fetch_infos)
     '''
     subject_files = lu.loadimages(subject_dir)
-    scans = lu.filterlist_exc(exclude=['.json'], str_lst=subject_files)
-    infos = lu.filterlist_exc(exclude=scans,str_lst=subject_files)
+    scans = lu.filterlist_exc(exclude=['.json'], lst=subject_files)
+    infos = lu.filterlist_exc(exclude=scans, lst=subject_files)
     def regroup_data(col:str,data:pd.DataFrame) -> pd.DataFrame:
         return df(((grp, data.groupby(col).get_group(grp).fpaths.values)
                              for grp in tqdm(list(data.groupby(
