@@ -20,8 +20,8 @@ from cimaqprep.fetch_events_behav import fetch_events_behav
 from cimaqprep.fetch_scans_infos import fetch_scans_infos
 from cimaqprep.fetch_participant import fetch_participant
 from cimaqprep.get_tr_nscans_frametimes import get_tr_nscans_frametimes 
-from cimaqprep.get_epi_mask_fromdata import get_epi_mask_fromdata 
-from cimaqprep.resample_fmri_to_events import resample_fmri_to_events 
+#from cimaqprep.get_epi_mask_fromdata import get_epi_mask_fromdata 
+#from cimaqprep.resample_fmri_to_events import resample_fmri_to_events 
 
 class participant_data:
     '''
